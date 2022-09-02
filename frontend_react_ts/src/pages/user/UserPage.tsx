@@ -1,16 +1,18 @@
 import React, {useEffect} from "react";
 import axios from "axios";
-import {Button, Col, Form, InputGroup, Container, Row} from "react-bootstrap";
+import {Button, Col, Container, Form, InputGroup, Row} from "react-bootstrap";
+import {useAppDispatch, useAppSelector} from "../../hooks/redux";
+import {fetchUserInfo} from "../../store/actions/userInfoActions";
+import ProductCard from "../catalogue/ProductCard";
 
 export default function () {
+    const dispatch = useAppDispatch();
+    const {error, loading, products} = useAppSelector(state => state.product);
+
     useEffect(() => {
-        const username = window.location.pathname.split("/").at(2);
-        const res = axios.get("/users/profile/"+username, {withCredentials:true});
-        console.log("UserForm error : '"+res+"'");
-        console.log(res);
-        console.log("UserForm data received");
-        console.log("request has sent from UserForm");
-    })
+        dispatch(fetchUserInfo());
+    }, [])
+
     return (
         <Container>
             <Row>
@@ -41,9 +43,11 @@ export default function () {
                     Место для вашей рекламы
                 </Col>
             </Row>
-            <Row>
-            Какая нибудь карусель
-            </Row>
+            <div className={"row"} style={{marginTop: "15px"}}>
+                {
+                    products.map(product => <ProductCard key={product.id} product={product}/>)
+                }
+            </div>
         </Container>
 )
 }

@@ -36,8 +36,7 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
                         "/swagger-ui/**",
                         "/api-docs",
                         "/swagger-ui.html",
-                        "/api/catalogue/**",
-                        "/api/auth/**").permitAll()
+                        "/api/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling().authenticationEntryPoint(authenticationEntryPoint).and()

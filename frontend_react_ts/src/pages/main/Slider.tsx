@@ -3,6 +3,7 @@ import {Carousel} from 'react-bootstrap'
 import carousel1 from './images/carousel1.jpg';
 import carousel2 from './images/carousel2.jpg';
 import carousel3 from './images/carousel3.jpg';
+
 export default function () {
     return (
         <Carousel>

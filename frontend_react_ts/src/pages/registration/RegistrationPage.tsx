@@ -26,10 +26,9 @@ export default function () {
     let [error, setError] = useState(false);
 
     let sendData = {
-        "userDTO": {
+        "userLoginRequest": {
             "username": username,
             "password": password,
-            "role": "USER"
         },
         "userInfo": {
             "firstname": firstname,

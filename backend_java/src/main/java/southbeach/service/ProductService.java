@@ -3,8 +3,8 @@ package southbeach.service;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import southbeach.exceptions.ProductAlreadyExistException;
 import southbeach.exceptions.ProductNotFoundException;
-import southbeach.model.product.ProductDTO;
 import southbeach.model.product.Product;
+import southbeach.model.product.ProductDTO;
 
 import java.util.List;
 import java.util.Set;
@@ -15,10 +15,9 @@ public interface ProductService {
             UsernameNotFoundException;
     void removeProduct(String username, String name) throws UsernameNotFoundException,
                                                             ProductNotFoundException;
-    List<ProductDTO> getProductDTOs(String username) throws UsernameNotFoundException;
     Set<Product> getProducts(String username) throws UsernameNotFoundException;
 
-    List<ProductDTO> getAllProducts() throws RuntimeException;
+    List<Product> getAllProducts() throws RuntimeException;
 
 
 }

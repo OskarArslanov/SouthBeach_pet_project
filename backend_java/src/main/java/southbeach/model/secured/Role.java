@@ -1,23 +1,31 @@
 package southbeach.model.secured;
 
-import lombok.AllArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import lombok.Setter;
 
+import javax.persistence.*;
 import java.util.Set;
-import java.util.stream.Collectors;
 
+@Entity
 @Getter
-@AllArgsConstructor
-public enum Role {
-    USER(Set.of(Authority.USERS_WRITE, Authority.USERS_READ)),
-    MODERATOR(Set.of(Authority.USERS_WRITE, Authority.USERS_READ,
-                     Authority.MODERATORS_WRITE, Authority.MODERATORS_READ));
-    private final Set<Authority> authorities;
+@Setter
+public class Role {
+    @Id
+    @Column(name = "id")
+    private Long id;
 
-    public Set<SimpleGrantedAuthority> getGrantedAuthorities() {
-        return getAuthorities().stream()
-                               .map(authority -> new SimpleGrantedAuthority(authority.getAuthority()))
-                               .collect(Collectors.toSet());
-    }
+    private String name;
+
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {CascadeType.ALL})
+    @JoinTable(name = "role_authority",
+            joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id"))
+    private Set<Authority> authorities;
+
+    @JsonIgnore
+    @ManyToMany(mappedBy = "roles")
+    private Set<UserSec> userSecs;
 }

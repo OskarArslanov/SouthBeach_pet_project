@@ -1,13 +1,18 @@
 package southbeach.model.secured;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import southbeach.model.user.User;
 
 import javax.persistence.*;
-import java.util.*;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -26,11 +31,19 @@ public class UserSec implements UserDetails {
     private boolean accountNonExpired;
     private boolean accountNonLocked;
     private boolean credentialsNonExpired;
-    @Enumerated(EnumType.STRING)
-    private Role role;
+
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {CascadeType.ALL})
+    @JoinTable(name = "user_role",
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+    private Set<Role> roles;
 
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return role.getGrantedAuthorities();
+        Set<GrantedAuthority> authorities = new HashSet<>();
+        roles.forEach(auth -> authorities.addAll(auth.getAuthorities()));
+        return authorities;
     }
 
     @JsonIgnore
@@ -45,14 +58,12 @@ public class UserSec implements UserDetails {
 
     public UserSec(String username, String password,
                    boolean enabled, boolean accountNonExpired,
-                   boolean accountNonLocked, boolean credentialsNonExpired,
-                   Role role) {
+                   boolean accountNonLocked, boolean credentialsNonExpired) {
         this.username = username;
         this.password = password;
         this.enabled = enabled;
         this.accountNonExpired = accountNonExpired;
         this.accountNonLocked = accountNonLocked;
         this.credentialsNonExpired = credentialsNonExpired;
-        this.role = role;
     }
 }

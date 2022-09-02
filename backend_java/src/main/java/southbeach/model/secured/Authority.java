@@ -1,18 +1,29 @@
 package southbeach.model.secured;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 
-public enum Authority implements GrantedAuthority {
-    USERS_READ("users:read"),
-    USERS_WRITE("users:write"),
-    MODERATORS_READ("moderators:read"),
-    MODERATORS_WRITE("moderators:write");
+import javax.persistence.*;
+import java.util.Set;
 
-    private final String authority;
+@Getter
+@Setter
+@Entity
+@Table(name = "authorities")
+public class Authority implements GrantedAuthority {
+    @Id
+    @Column(name = "id")
+    private Long id;
 
-    Authority(String authority) {
-        this.authority = authority;
-    }
+    private String authority;
+
+    @JsonIgnore
+    @ManyToMany(mappedBy = "authorities")
+    private Set<Role> roles;
+
+    @Override
     public String getAuthority() {
         return authority;
     }

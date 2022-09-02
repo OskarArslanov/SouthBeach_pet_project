@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class UserRegisterRequest {
-    private UserDTO userDTO;
+    private UserLoginRequest userLoginRequest;
     private UserInfo userInfo;
 }

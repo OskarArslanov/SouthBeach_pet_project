@@ -3,7 +3,6 @@ package southbeach.model.secured;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import southbeach.model.secured.UserSec;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -23,7 +22,7 @@ public class JwtRefresh {
     private UserSec userSec;
 
     private Date expiresDate;
-    @Column(unique = true)
+    @Column(unique = true, length = 1024)
     private String token;
 
     public JwtRefresh(UserSec userSec, Date expiresDate, String token) {

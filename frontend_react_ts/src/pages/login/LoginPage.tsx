@@ -1,4 +1,4 @@
-import React, {FunctionComponent, useState} from "react";
+import React, {useState} from "react";
 import {Button} from "react-bootstrap";
 import LoginInputsForm from "./LoginInputsForm";
 import axios from "axios";
@@ -24,7 +24,6 @@ const LoginPage =  () => {
             const response = await axios.post("/auth/login", sendData, {withCredentials:true});
             setError(false);
             console.log(response.status);
-            localStorage.setItem("auth", "true");
             window.location.replace("http://localhost:3000/users/"+username);
         } catch (error) {
             // @ts-ignore

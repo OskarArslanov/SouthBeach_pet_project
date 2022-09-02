@@ -1,6 +1,8 @@
 package southbeach.security;
 
-import io.jsonwebtoken.*;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,8 +14,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import southbeach.model.secured.JwtRefresh;
-import southbeach.model.user.User;
 import southbeach.model.secured.UserSec;
+import southbeach.model.user.User;
 import southbeach.service.UserService;
 
 import javax.annotation.PostConstruct;
@@ -76,6 +78,7 @@ public class JwtProvider {
             if (userSec.getJwtRefresh() == null) {
                 System.out.println("jwt is null");
                 JwtRefresh jwtRefresh = new JwtRefresh(userSec,validityDate, token);
+                log.info(String.valueOf(token.length()));
                 userSec.setJwtRefresh(jwtRefresh);
             } else {
                 System.out.println("jwt refreshed");

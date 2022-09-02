@@ -6,12 +6,14 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import southbeach.exceptions.UserAlreadyExistException;
-import southbeach.model.user.UserDTO;
-import southbeach.model.user.User;
 import southbeach.model.secured.UserSec;
-import southbeach.model.user.UserInfo;
+import southbeach.model.user.User;
+import southbeach.model.user.UserRegisterRequest;
+import southbeach.repository.RoleRepository;
 import southbeach.repository.UserRepository;
 import southbeach.service.UserService;
+
+import java.util.Set;
 
 @Service
 @Slf4j
@@ -19,6 +21,7 @@ import southbeach.service.UserService;
 public class UserServiceV1 implements UserService {
 
     private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Override
@@ -35,17 +38,19 @@ public class UserServiceV1 implements UserService {
     }
 
     @Override
-    public boolean registry(UserDTO userDTO, UserInfo userInfo) throws UserAlreadyExistException {
-        String username = userDTO.getUsername();
+    public boolean registry(UserRegisterRequest request) throws UserAlreadyExistException {
+        String username = request.getUserLoginRequest().getUsername();
+        String password = request.getUserLoginRequest().getPassword();
         try {
             getUserSecByUsername(username);
             throw new UserAlreadyExistException(username);
         } catch (UsernameNotFoundException e) {
-            UserSec userSec = new UserSec(userDTO.getUsername(),
-                                          passwordEncoder.encode(userDTO.getPassword()),
+            UserSec userSec = new UserSec(username,
+                                          passwordEncoder.encode(password),
                                           true, true,
-                                          true, true, userDTO.getRole());
-            userSec.setUser(User.from(userInfo));
+                                          true, true);
+            userSec.setRoles(Set.of(roleRepository.findByName("USER").get()));
+            userSec.setUser(User.from(request.getUserInfo()));
             userRepository.save(userSec);
             return true;
         }

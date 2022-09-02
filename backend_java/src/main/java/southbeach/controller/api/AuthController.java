@@ -12,8 +12,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.*;
 import southbeach.exceptions.UserAlreadyExistException;
-import southbeach.model.user.UserDTO;
-import southbeach.model.user.UserInfo;
 import southbeach.model.user.UserLoginRequest;
 import southbeach.model.user.UserRegisterRequest;
 import southbeach.security.JwtProvider;
@@ -44,8 +42,11 @@ public class AuthController {
             return ResponseEntity.ok()
                                  .header(HttpHeaders.SET_COOKIE, access_cookie.toString())
                                  .header(HttpHeaders.SET_COOKIE, refresh_cookie.toString()).build();
-        } catch (AuthenticationException e) {
+        } catch (BadCredentialsException e) {
             log.info("=======//username '"+userLoginRequest.getUsername()+"' not found//=======");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        } catch (AuthenticationException e) {
+            log.info("=======//auth exception//=======");
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
@@ -68,7 +69,7 @@ public class AuthController {
     @PostMapping("/registration")
     public ResponseEntity<?> register(@RequestBody UserRegisterRequest userRegisterRequest) {
         try {
-            userService.registry(userRegisterRequest.getUserDTO(), userRegisterRequest.getUserInfo());
+            userService.registry(userRegisterRequest);
             log.info("======================//user registered//============================");
             return ResponseEntity.ok().build();
         } catch (UserAlreadyExistException e) {

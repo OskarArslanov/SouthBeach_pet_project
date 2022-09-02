@@ -6,6 +6,7 @@ export default function () {
     axios.defaults.headers.get["Content-Type"] = "application/json";
     axios.interceptors.request.use(
         config => {
+            console.log("PRE REQUEST");
             if (config.baseURL) {
                 let requestUrl = config.baseURL+config.url;
                 console.log("SUCCESS PRE REQUEST : '"+requestUrl+"'");
@@ -18,6 +19,7 @@ export default function () {
     )
     axios.interceptors.response.use(
         async response => {
+            console.log("PRE RESPONSE");
             return response;
         }, async error => {
             console.log(error.response.status+" ERROR ON REQUEST: "+error.request.responseURL);

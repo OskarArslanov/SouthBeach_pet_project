@@ -8,13 +8,12 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 import southbeach.model.user.User;
 import southbeach.model.user.UserInfo;
-import southbeach.service.ProductService;
 import southbeach.service.UserService;
 
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-@RequestMapping("/api/users/profile/{username}")
+@RequestMapping("/api/users/{username}")
 public class UserProfileController {
     private final UserService userService;
 

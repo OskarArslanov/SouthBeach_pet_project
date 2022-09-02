@@ -1,4 +1,4 @@
-import React, {FunctionComponent} from "react";
+import React from "react";
 import {Button, Nav} from "react-bootstrap";
 import {useNavigate} from "react-router-dom";
 
@@ -18,8 +18,6 @@ const Authbar = () => {
                 <div style={{marginLeft:"25px"}}></div>
                 <Button variant={"primary"} onClick={()=> navigate("/logout")}> Выйти </Button>
             </Nav>;
-
-
     return (
         <>
             {localStorage.getItem("auth") === "true" ? authenticated : unAuthenticated}

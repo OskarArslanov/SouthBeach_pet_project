@@ -12,10 +12,11 @@ import southbeach.exceptions.ProductNotFoundException;
 import southbeach.model.product.ProductDTO;
 import southbeach.service.ProductService;
 
+
 @RestController
 @Slf4j
 @RequiredArgsConstructor
-@RequestMapping("/api/users/profile/products/{username}")
+@RequestMapping("/api/users/products/{username}")
 public class UserProductsController {
 
     private final ProductService productService;

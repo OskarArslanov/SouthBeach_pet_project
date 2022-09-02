@@ -1,4 +1,4 @@
-import React, {useState, useEffect, FunctionComponent} from "react";
+import React, {FunctionComponent, useEffect, useState} from "react";
 import InputControl from "../../components/InputControl";
 import InputMask from "react-input-mask";
 

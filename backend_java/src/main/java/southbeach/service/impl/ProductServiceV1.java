@@ -5,8 +5,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import southbeach.exceptions.ProductAlreadyExistException;
 import southbeach.exceptions.ProductNotFoundException;
-import southbeach.model.product.ProductDTO;
 import southbeach.model.product.Product;
+import southbeach.model.product.ProductDTO;
 import southbeach.model.user.User;
 import southbeach.repository.ProductRepository;
 import southbeach.repository.UserRepository;
@@ -14,7 +14,6 @@ import southbeach.service.ProductService;
 
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 public class ProductServiceV1 implements ProductService {
@@ -64,21 +63,11 @@ public class ProductServiceV1 implements ProductService {
     }
 
     @Override
-    public List<ProductDTO> getAllProducts() throws RuntimeException {
-        var products = productRepository.findAll()
-                                       .stream()
-                                       .map(ProductDTO::from)
-                                       .collect(Collectors.toList());
+    public List<Product> getAllProducts() throws RuntimeException {
+        var products = productRepository.findAll();
         products.forEach(System.out::println);
         System.out.println("products : " + products.size());
         if (products.size() == 0) throw new RuntimeException();
         return products;
-    }
-
-    @Override
-    public List<ProductDTO> getProductDTOs(String username) throws UsernameNotFoundException {
-        return userRepository.findUserByUsername(username).get()
-                             .getUser().getProducts().stream()
-                             .map(ProductDTO::from).collect(Collectors.toList());
     }
 }
