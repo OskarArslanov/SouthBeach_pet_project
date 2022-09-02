@@ -1,0 +1,7 @@
+unavailable from 17.08.2022 - gui in development
+-------------------------------------------------------
+in terminal enter next commands:
+1. docker-compose build
+2. docker-compose up
+then open browser on url:
+http://localhost:8080/swagger-ui/index.html#/

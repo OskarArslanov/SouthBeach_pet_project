@@ -1,0 +1,25 @@
+version: "3.7"
+services:
+  api:
+    container_name: api
+    build: .
+    restart: always
+    ports:
+      - "8001:8080"
+    depends_on:
+      - postgres
+    environment:
+      -SPRING_DATASOURCE_URL: jdbc:postgresql://database_psql:5432/home
+      -SPRING_DATASOURCE_USERNAME : postgres
+      -SPRING_DATASOURCE_PASSWORD : root
+      -SPRING_JPA_HIBERNATE_DDL_AUTO: update
+  postgres:
+    container_name: database_psql
+    image: "postgres:14.5-alpine"
+    restart: always
+    ports:
+      - "8000:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: home

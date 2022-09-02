@@ -1,0 +1,3 @@
+# Project exclude paths
+/backend_java/target/
+/frontend_react_ts/node_modules/
