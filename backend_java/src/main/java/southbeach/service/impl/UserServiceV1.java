@@ -7,8 +7,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import southbeach.exceptions.UserAlreadyExistException;
 import southbeach.model.secured.UserSec;
+import southbeach.model.user.RegistryRequest;
 import southbeach.model.user.User;
-import southbeach.model.user.UserRegisterRequest;
 import southbeach.repository.RoleRepository;
 import southbeach.repository.UserRepository;
 import southbeach.service.UserService;
@@ -38,9 +38,9 @@ public class UserServiceV1 implements UserService {
     }
 
     @Override
-    public boolean registry(UserRegisterRequest request) throws UserAlreadyExistException {
-        String username = request.getUserLoginRequest().getUsername();
-        String password = request.getUserLoginRequest().getPassword();
+    public boolean registry(RegistryRequest request) throws UserAlreadyExistException {
+        String username = request.getLoginInfoData().getEmail();
+        String password = request.getLoginInfoData().getPassword();
         try {
             getUserSecByUsername(username);
             throw new UserAlreadyExistException(username);
@@ -50,7 +50,7 @@ public class UserServiceV1 implements UserService {
                                           true, true,
                                           true, true);
             userSec.setRoles(Set.of(roleRepository.findByName("USER").get()));
-            userSec.setUser(User.from(request.getUserInfo()));
+            userSec.setUser(User.from(request.getUserInfoData()));
             userRepository.save(userSec);
             return true;
         }

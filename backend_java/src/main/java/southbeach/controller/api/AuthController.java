@@ -12,8 +12,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.*;
 import southbeach.exceptions.UserAlreadyExistException;
-import southbeach.model.user.UserLoginRequest;
-import southbeach.model.user.UserRegisterRequest;
+import southbeach.model.user.LoginInfoData;
+import southbeach.model.user.RegistryRequest;
 import southbeach.security.JwtProvider;
 import southbeach.service.UserService;
 
@@ -29,21 +29,22 @@ public class AuthController {
 
     private final UserService userService;
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody UserLoginRequest userLoginRequest) {
+    public ResponseEntity<?> login(@RequestBody LoginInfoData loginInfoData) {
         try {
-            String username = userLoginRequest.getUsername();
-            String password = userLoginRequest.getPassword();
+            String username = loginInfoData.getEmail();
+            String password = loginInfoData.getPassword();
             log.info("username : '"+username+"' | password : '"+password+"'");
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username,
                                                                                        password));
-            log.info("=======//username :'"+userLoginRequest.getUsername()+"' found//==========");
+            log.info("=======//email :'"+ loginInfoData.getEmail()+"' found//==========");
             var access_cookie = jwtProvider.createCookie(username, true);
             var refresh_cookie = jwtProvider.createCookie(username, false);
+            log.info("============================//got cookies//==============================");
             return ResponseEntity.ok()
                                  .header(HttpHeaders.SET_COOKIE, access_cookie.toString())
                                  .header(HttpHeaders.SET_COOKIE, refresh_cookie.toString()).build();
         } catch (BadCredentialsException e) {
-            log.info("=======//username '"+userLoginRequest.getUsername()+"' not found//=======");
+            log.info("=======//email '"+ loginInfoData.getEmail()+"' not found//=======");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         } catch (AuthenticationException e) {
             log.info("=======//auth exception//=======");
@@ -67,9 +68,9 @@ public class AuthController {
         }
     }
     @PostMapping("/registration")
-    public ResponseEntity<?> register(@RequestBody UserRegisterRequest userRegisterRequest) {
+    public ResponseEntity<?> register(@RequestBody RegistryRequest request) {
         try {
-            userService.registry(userRegisterRequest);
+            userService.registry(request);
             log.info("======================//user registered//============================");
             return ResponseEntity.ok().build();
         } catch (UserAlreadyExistException e) {

@@ -116,4 +116,9 @@ public class JwtProvider {
         return Arrays.stream(cookies).filter(cookie -> cookie.getName().equals(name))
                      .findFirst().orElse(null).getValue();
     }
+
+    public String getUsernameFromCookies(String name, Cookie[] cookies) {
+        String token = getTokenFromCookie(name, cookies);
+        return getUsernameFromToken(token);
+    }
 }

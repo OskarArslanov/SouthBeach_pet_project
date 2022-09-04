@@ -10,20 +10,25 @@ import org.springframework.web.bind.annotation.*;
 import southbeach.exceptions.ProductAlreadyExistException;
 import southbeach.exceptions.ProductNotFoundException;
 import southbeach.model.product.ProductDTO;
+import southbeach.security.JwtProvider;
 import southbeach.service.ProductService;
+
+import javax.servlet.http.HttpServletRequest;
 
 
 @RestController
 @Slf4j
 @RequiredArgsConstructor
-@RequestMapping("/api/users/products/{username}")
+@RequestMapping("/api/profile/products")
 public class UserProductsController {
 
     private final ProductService productService;
-
+    private final JwtProvider jwtProvider;
     @GetMapping
-    public ResponseEntity<?> getProducts(@PathVariable String username) {
+    public ResponseEntity<?> getProducts(HttpServletRequest request) {
         try {
+            String username = jwtProvider.getUsernameFromCookies("access_token",
+                                                                 request.getCookies());
             return ResponseEntity.ok(productService.getProducts(username));
         } catch (UsernameNotFoundException e) {
             log.error("==================//username not found//===============");
@@ -33,9 +38,11 @@ public class UserProductsController {
 
     @PreAuthorize("hasAnyAuthority('users:read', 'users:write')")
     @PostMapping
-    public ResponseEntity<?> addProduct(@PathVariable String username,
-                                        @RequestBody ProductDTO productDTO) {
+    public ResponseEntity<?> addProduct(@RequestBody ProductDTO productDTO,
+                                        HttpServletRequest request) {
         try {
+            String username = jwtProvider.getUsernameFromCookies("access_token",
+                                                                 request.getCookies());
             productService.addProduct(username, productDTO);
             return ResponseEntity.status(HttpStatus.OK).build();
         } catch (UsernameNotFoundException e) {
@@ -51,9 +58,11 @@ public class UserProductsController {
 
     @PreAuthorize("hasAnyAuthority('users:read', 'users:write')")
     @DeleteMapping
-    public ResponseEntity<?> removeProduct(@PathVariable String username,
-                                           @RequestBody String name) {
+    public ResponseEntity<?> removeProduct(@RequestBody String name,
+                                           HttpServletRequest request) {
         try {
+            String username = jwtProvider.getUsernameFromCookies("access_token",
+                                                                 request.getCookies());
             System.out.println(username + " : " + name);
             productService.removeProduct(username, name);
             return ResponseEntity.status(HttpStatus.OK).build();

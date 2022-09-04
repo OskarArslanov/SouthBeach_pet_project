@@ -1,34 +1,33 @@
+import {IUser} from "../../models/entities";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {IUser} from "../../models/models";
 
 interface UserState {
     loading: boolean,
     error: string,
-    users: IUser[]
-
+    user: IUser
 }
 
 const initialState: UserState = {
     loading: false,
     error: "",
-    users: []
+    user: {id: 0, firstname: "", lastname: "",parentname: "",phone: ""}
 }
 
 export const userSlice = createSlice({
-    name: "user",
+    name: "userInfo",
     initialState,
     reducers: {
         fetching(state) {
             state.loading = true
         },
-        fetchSuccess(state, action: PayloadAction<IUser[]>) {
+        fetchingSuccess(state, action: PayloadAction<IUser>) {
             state.loading = false
-            state.users = action.payload
+            state.user = action.payload
         },
-        fetchError(state, action: PayloadAction<Error>) {
+        fetchingError(state, action: PayloadAction<Error>) {
             state.loading = false
-            state.error  = action.payload.message
+            state.error = action.payload.message
         }
     }
 })
-export default userSlice.reducer
+export default userSlice.reducer;

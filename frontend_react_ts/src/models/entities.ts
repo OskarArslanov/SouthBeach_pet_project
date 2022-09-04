@@ -1,10 +1,9 @@
 export interface IUser {
-    username: string,
+    id: number,
     firstname: string,
     lastname: string,
     parentname: string,
     phone: string,
-    email: string
 }
 
 export interface IProduct {
@@ -16,14 +15,4 @@ export interface IProduct {
     dayPrice: number,
     weekPrice: number,
     monthPrice: number
-}
-
-export interface IUserInfo {
-    id: number,
-    firstname: string,
-    lastname: string,
-    parentname: string,
-    phone: string,
-    email: string,
-    products: IProduct[]
 }

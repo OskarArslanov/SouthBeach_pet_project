@@ -5,16 +5,15 @@ import {BrowserRouter, Route, Routes} from "react-router-dom";
 import MainPage from "../src/pages/main/MainPage";
 import ContactsPage from "../src/pages/contacts/ContactsPage";
 import CataloguePage from "../src/pages/catalogue/CataloguePage";
-import UserPage from "../src/pages/user/UserPage";
+import UserPage from "./pages/user/UserPage";
 import Interceptors from "./axios";
-import LoginPage from "../src/pages/login/LoginPage";
-import RegistrationPage from "../src/pages/registration/RegistrationPage";
+import LoginPage from "./pages/user/auth/LoginPage";
+import RegistrationPage from "./pages/user/auth/RegistrationPage";
 
 
 
 
 export default function() {
-    localStorage.setItem("auth", "false");
   Interceptors();
   return (
       <>
@@ -25,7 +24,7 @@ export default function() {
             <Route path="/login" element={<LoginPage/>}/>
             <Route path="/registration" element={<RegistrationPage/>}/>
             <Route path="/contact" element={<ContactsPage/>}/>
-            <Route path="/users/:username" element={<UserPage/>}/>
+            <Route path="/profile" element={<UserPage/>}/>
             <Route path="/catalogue" element={<CataloguePage/>}/>
           </Routes>
         </BrowserRouter>

@@ -1,7 +1,8 @@
 import React from "react";
 import {Card, CardGroup} from "react-bootstrap";
 import forest from "./icons/forest.png";
-import {IProduct} from "../../models/models";
+import {IProduct} from "../../models/entities";
+
 
 interface ProductCardProps {
     product: IProduct

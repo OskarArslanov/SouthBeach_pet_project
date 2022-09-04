@@ -1,20 +1,20 @@
-import {IProduct} from "../../models/models";
+import {IProduct} from "../../models/entities";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
-interface UserInfoState{
+interface ProductState {
     loading: boolean,
     error: string,
     products: IProduct[]
 }
 
-const initialState: UserInfoState = {
+const initialState: ProductState = {
     loading: false,
     error: "",
     products: []
 }
 
-export const userInfoSlice = createSlice({
-    name: "userInfo",
+export const productSlice = createSlice({
+    name: "productInfo",
     initialState,
     reducers: {
         fetching(state) {
@@ -30,4 +30,4 @@ export const userInfoSlice = createSlice({
         }
     }
 })
-export default userInfoSlice.reducer;
+export default productSlice.reducer;

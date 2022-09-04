@@ -1,30 +1,18 @@
 import React, {useState} from "react";
 import {Button} from "react-bootstrap";
-import LoginInputsForm from "./LoginInputsForm";
+import LoginInputsForm from "../UserLoginInfo";
 import axios from "axios";
+import {LoginInfoData} from "../../../models/dtos";
 
-interface UserInfo {
-    username: string;
-    password: string;
-}
-const LoginPage =  () => {
-
-    let [username, setUsername] = useState('');
-    let [password, setPassword] = useState('');
-
+const LoginPage = () => {
+    let [loginInfoData, setLoginInfoData] = useState({email: "", password: ""});
     let [error, setError] = useState(false);
-
-    let sendData = {
-        "username": username,
-        "password": password,
-    }
 
     const login = async () => {
         try {
-            const response = await axios.post("/auth/login", sendData, {withCredentials:true});
+            const response = await axios.post("/auth/login", loginInfoData, {withCredentials:true});
             setError(false);
-            console.log(response.status);
-            window.location.replace("http://localhost:3000/users/"+username);
+            window.location.replace("http://localhost:3000/profile");
         } catch (error) {
             // @ts-ignore
             if (error.response.status === 400) {
@@ -33,19 +21,18 @@ const LoginPage =  () => {
             }
             console.log(error)
         }
-        localStorage.setItem("auth", "false");
     }
 
-    const createJson = (userInfo:UserInfo) => {
-        setUsername(userInfo.username);
-        setPassword(userInfo.password);
+    const handleInput = (i:LoginInfoData) => {
+        setLoginInfoData({email: i.email, password: i.password});
     }
+
     return (
         <div className={"container"} style={{marginTop: "20px"}}>
             <div className={"row"}>
                 <div className={"col"}>
-                    <LoginInputsForm isUserExist={error}
-                                     onChange={(userInfo:UserInfo) => createJson(userInfo)}/>
+                    <LoginInputsForm onChange={handleInput}/>
+                    {error ? <div>Введены не верные данные</div> : ''}
                     <Button style={{marginTop: "10px", display: "flex", marginLeft:"auto"}}
                             onClick={login}>Войти</Button>
                 </div>

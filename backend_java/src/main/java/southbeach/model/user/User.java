@@ -25,13 +25,12 @@ public class User {
     private String lastname;
     private String parentname;
     private String phone;
-    @Column(unique = true)
-    private String email;
 
     @JsonIgnore
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private UserSec userSec;
 
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {CascadeType.ALL})
     @JoinTable(name = "user_product",
@@ -49,13 +48,12 @@ public class User {
         product.getUsers().remove(this);
     }
 
-    public static User from(UserInfo userInfo) {
+    public static User from(UserInfoData userInfoData) {
         User user = new User();
-        user.setFirstname(userInfo.getFirstname());
-        user.setLastname(userInfo.getLastname());
-        user.setParentname(userInfo.getParentname());
-        user.setEmail(userInfo.getEmail());
-        user.setPhone(userInfo.getPhone());
+        user.setFirstname(userInfoData.getFirstname());
+        user.setLastname(userInfoData.getLastname());
+        user.setParentname(userInfoData.getParentname());
+        user.setPhone(userInfoData.getPhone());
         return user;
     }
 }
