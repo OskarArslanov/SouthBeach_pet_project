@@ -34,13 +34,15 @@ public class UserProfileController {
             return ResponseEntity.notFound().build();
         }
     }
-    @PreAuthorize("hasAnyAuthority('users:read', 'users:write')")
+    @PreAuthorize("hasAnyAuthority('EDIT_PROFILE')")
     @PutMapping
     public ResponseEntity<?> update(@RequestBody UserInfoData userInfoData,
                                     HttpServletRequest request) {
         try {
+            log.info("==================//start updating user//===============");
             String username = jwtProvider.getUsernameFromCookies("access_token",
                                                                  request.getCookies());
+            log.info("==================//updatable user '"+username+"'//===============");
             User user = userService.getUserByUsername(username);
             user.setFirstname(userInfoData.getFirstname());
             user.setLastname(userInfoData.getLastname());
@@ -49,12 +51,13 @@ public class UserProfileController {
             userService.update(user.getUserSec());
             log.info("==================//user updated//===============");
             return ResponseEntity.ok(user);
-        } catch (UsernameNotFoundException e) {
+        } catch (Exception e) {
+            e.printStackTrace();
             log.error("==================//username not found//===============");
             return ResponseEntity.badRequest().build();
         }
     }
-    @PreAuthorize("hasAnyAuthority('users:read', 'users:write')")
+    @PreAuthorize("hasAnyAuthority('DELETE_PROFILE')")
     @DeleteMapping
     public ResponseEntity<?> deleteUser(HttpServletRequest request) {
         try {

@@ -6,6 +6,7 @@ import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Getter
@@ -21,7 +22,7 @@ public class Authority implements GrantedAuthority {
 
     @JsonIgnore
     @ManyToMany(mappedBy = "authorities")
-    private Set<Role> roles;
+    private Set<Role> roles = new HashSet<>();
 
     @Override
     public String getAuthority() {

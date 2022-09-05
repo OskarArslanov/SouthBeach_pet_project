@@ -1,18 +1,21 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Button} from "react-bootstrap";
-import LoginInputsForm from "../UserLoginInfo";
 import axios from "axios";
-import {LoginInfoData} from "../../../models/dtos";
+import InputControl from "../../components/InputControl";
+import {save} from "react-cookies";
 
 const LoginPage = () => {
-    let [loginInfoData, setLoginInfoData] = useState({email: "", password: ""});
     let [error, setError] = useState(false);
+    let [email, setEmail] = useState('');
+    let [password, setPassword] = useState('');
 
     const login = async () => {
         try {
-            const response = await axios.post("/auth/login", loginInfoData, {withCredentials:true});
+            const response = await axios.post("/auth/login", {email, password}, {withCredentials:true});
             setError(false);
-            window.location.replace("http://localhost:3000/profile");
+            if (response.status === 200) {
+                window.location.replace("http://localhost:3000/profile");
+            }
         } catch (error) {
             // @ts-ignore
             if (error.response.status === 400) {
@@ -23,15 +26,19 @@ const LoginPage = () => {
         }
     }
 
-    const handleInput = (i:LoginInfoData) => {
-        setLoginInfoData({email: i.email, password: i.password});
-    }
-
     return (
         <div className={"container"} style={{marginTop: "20px"}}>
             <div className={"row"}>
                 <div className={"col"}>
-                    <LoginInputsForm onChange={handleInput}/>
+                    <div className={"col"}>
+                        <InputControl title="Почта" type={"email"}
+                                      placeholder={"example@google.com"}
+                                      value={email} onChange={setEmail}/>
+                    </div>
+                    <div className={"col"}>
+                        <InputControl title="Пароль" type={"password"}
+                                      placeholder={"*********"}
+                                      value={password} onChange={setPassword}/></div>
                     {error ? <div>Введены не верные данные</div> : ''}
                     <Button style={{marginTop: "10px", display: "flex", marginLeft:"auto"}}
                             onClick={login}>Войти</Button>

@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -18,14 +19,14 @@ public class Role {
     private String name;
 
     @JsonIgnore
-    @ManyToMany(fetch = FetchType.LAZY,
+    @ManyToMany(fetch = FetchType.EAGER,
             cascade = {CascadeType.ALL})
     @JoinTable(name = "role_authority",
             joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id"))
-    private Set<Authority> authorities;
+    private Set<Authority> authorities = new HashSet<>();
 
     @JsonIgnore
     @ManyToMany(mappedBy = "roles")
-    private Set<UserSec> userSecs;
+    private Set<UserSec> userSecs = new HashSet<>();
 }

@@ -30,36 +30,44 @@ public class JwtFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
-        System.out.println("FILTER INTERNAL IN ACTION");
+        log.info("FILTER REQUEST START : "+request.getRequestURL());
+        Cookie _logged = new Cookie("_logged", "false");
+        _logged.setHttpOnly(false);
+        _logged.setMaxAge(10000000);
         try {
             Cookie[] cookies = request.getCookies();
             String access_token = jwtProvider.getTokenFromCookie("access_token", cookies);
-            log.info("======================//got access_token//===================");
+            log.info("got access_token");
             validatingAccessCookie(access_token);
+            _logged.setValue("true");
         } catch (Exception e) {
-            log.error("======================//cookies are null//===================");
+            log.error("auth cookies are null");
         }
+        response.addCookie(_logged);
         filterChain.doFilter(request, response);
     }
 
     private void validatingAccessCookie(String token) {
-        log.info("======================//Start validating access_token//===================");
         try {
+            log.info("Start validating access_token");
             Authentication authentication = jwtProvider.getAuthentication(token);
+            log.info("auth got for : '"+authentication.getName()+"'");
             SecurityContextHolder.getContext().setAuthentication(authentication);
-            log.info("======================//access_token is valid//===================");
+            log.info("Finish validating access_token : Success");
         } catch (UsernameNotFoundException usernameNotFoundException) {
-            log.error("======================//username exception//===================");
+            log.error("username exception");
         } catch (ExpiredJwtException expiredJwtException) {
-            log.error("======================//expired exception//===================");
+            log.error("expired exception");
         } catch (SignatureException signatureException) {
-            log.error("======================//signature exception//===================");
+            log.error("signature exception");
         } catch (MalformedJwtException malformedJwtException) {
-            log.error("======================//malformed exception//===================");
+            log.error("malformed exception");
         } catch (IllegalArgumentException illegalArgumentException) {
-            log.error("======================//illegal argument exception//===================");
+            log.error("illegal argument exception");
         } catch (UnsupportedJwtException unsupportedJwtException) {
-            log.error("======================//unsupported exception//===================");
+            log.error("unsupported exception");
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

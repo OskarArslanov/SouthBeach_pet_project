@@ -6,6 +6,10 @@ import rent from "./icons/rent.png";
 import river from "./icons/river.png";
 import sea from "./icons/sea.png";
 import {Link} from "react-router-dom";
+import {useAppDispatch, useAppSelector} from "../../hooks/redux";
+import {fetchUser} from "../../store/actions/userActions";
+import {fetchProducts} from "../../store/actions/productActions";
+import ProductCard from "./ProductCard";
 
 
 const forestLink = () => {
@@ -31,22 +35,13 @@ const rentLink = () => {
 
 
 export default function () {
-    let [items, setItems] = useState([]);
-    const catalogueApiUrl = "http://localhost:8080/api/contractors/catalogue";
-    useEffect(()=> {
-        fetch(catalogueApiUrl)
-            .then((response) => {
-                if (response.status === 200) {
-                    return (response.json);
-                } else {
-                    return null;
-                }
-            })
-            .then((arr) => {
-                // setItems(arr);
-            });
+    const dispatch = useAppDispatch();
+    const {error, loading, products} = useAppSelector(state => state.products);
 
+    useEffect(() => {
+        dispatch(fetchProducts({}))
     }, [])
+
     return (
         <>
             <CardGroup>
@@ -90,6 +85,11 @@ export default function () {
                         <Card.Img src={rent}/>
                     </Card.Body>
                 </Card>
+            </CardGroup>
+            <CardGroup>
+                {
+                    products.map(product => <ProductCard key={product.id} product={product}/>)
+                }
             </CardGroup>
         </>
 

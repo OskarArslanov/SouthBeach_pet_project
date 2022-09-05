@@ -52,7 +52,7 @@ public class JwtProvider {
     public String getUsernameFromToken(String token) {
         String username =
                 Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
-        log.info("======================//"+username+"//===================");
+        log.info("username from jwt : '"+username+"'");
         return username;
     }
 
@@ -69,7 +69,7 @@ public class JwtProvider {
             name = "refresh_token";
         }
         validityDate = new Date(now.getTime() + expiration*1000);
-        log.info("==================//"+name+" valid to : "+validityDate+"===============");
+        log.info(name+" valid to : "+validityDate);
         String token = Jwts.builder().setClaims(getUsernameClaims(username))
                                   .setIssuedAt(now).setExpiration(validityDate)
                                   .signWith(SignatureAlgorithm.HS256, jwtSecret).compact();
@@ -94,9 +94,9 @@ public class JwtProvider {
         String username = getUsernameFromToken(refresh_token);
         UserSec userSec =  userService.getUserSecByUsername(username);
         boolean isTokenCorrect = userSec.getJwtRefresh().getToken().equals(refresh_token);
-        log.info("==================//is token correct : "+isTokenCorrect+"===============");
+        log.info("is token correct : "+isTokenCorrect);
         boolean isTokenNotExpired = !userSec.getJwtRefresh().getExpiresDate().before(new Date());
-        log.info("=================//is token not expired : "+isTokenNotExpired+"==============");
+        log.info("is token not expired : "+isTokenNotExpired);
         if (isTokenCorrect && isTokenNotExpired) {
             return createCookie(username, true);
         } else {

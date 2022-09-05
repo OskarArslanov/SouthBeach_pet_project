@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -12,6 +13,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.*;
 import southbeach.exceptions.UserAlreadyExistException;
+import southbeach.model.secured.JwtRefresh;
 import southbeach.model.user.LoginInfoData;
 import southbeach.model.user.RegistryRequest;
 import southbeach.security.JwtProvider;
@@ -77,6 +79,32 @@ public class AuthController {
             log.error("=====================//user registration failed//=======================");
             return ResponseEntity.badRequest().build();
         }
+    }
+
+    @GetMapping("/logout")
+    public ResponseEntity<?> logout(HttpServletRequest request) {
+        try {
+            String username = jwtProvider.getUsernameFromCookies("access_token",
+                                                                 request.getCookies());
+            JwtRefresh refresh = userService.getUserSecByUsername(username).getJwtRefresh();
+            refresh.setToken(null);
+            refresh.setExpiresDate(null);
+            userService.getUserSecByUsername(username).setJwtRefresh(refresh);
+            var access_cookie = ResponseCookie.from("access_token", "")
+                                              .path("/").httpOnly(true)
+                                              .maxAge(0).build();
+            var refresh_cookie = ResponseCookie.from("refresh_token", "")
+                                               .path("/").httpOnly(true)
+                                               .maxAge(0).build();
+            return ResponseEntity.ok()
+                                 .header(HttpHeaders.SET_COOKIE, access_cookie.toString())
+                                 .header(HttpHeaders.SET_COOKIE, refresh_cookie.toString()).build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.ok().build();
+//            return ResponseEntity.badRequest().build();
+        }
+
     }
 
  }

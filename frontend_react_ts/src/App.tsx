@@ -7,18 +7,16 @@ import ContactsPage from "../src/pages/contacts/ContactsPage";
 import CataloguePage from "../src/pages/catalogue/CataloguePage";
 import UserPage from "./pages/user/UserPage";
 import Interceptors from "./axios";
-import LoginPage from "./pages/user/auth/LoginPage";
-import RegistrationPage from "./pages/user/auth/RegistrationPage";
-
-
-
+import LoginPage from "./pages/user/LoginPage";
+import RegistrationPage from "./pages/user/RegistrationPage";
 
 export default function() {
   Interceptors();
+  localStorage.setItem("_logged", "false");
   return (
       <>
-        <BrowserRouter>
-          <NavbarHeader/>
+          <BrowserRouter>
+          <NavbarHeader logged={localStorage.getItem("_logged")} onClick={() => localStorage.setItem("_logged", "false")}/>
           <Routes>
             <Route path="/" element={<MainPage/>}/>
             <Route path="/login" element={<LoginPage/>}/>

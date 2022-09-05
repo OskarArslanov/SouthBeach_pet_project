@@ -7,6 +7,7 @@ import {setupStore} from "./store";
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
+
 );
 
 const store = setupStore();
