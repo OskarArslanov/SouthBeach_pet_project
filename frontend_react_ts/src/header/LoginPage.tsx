@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {Button} from "react-bootstrap";
 import axios from "axios";
-import InputControl from "../../components/InputControl";
+import InputControl from "../components/InputControl";
 import {save} from "react-cookies";
 import {useNavigate} from "react-router-dom";
 

@@ -1,33 +1,22 @@
 import './styles/App.css';
 import "bootstrap/dist/css/bootstrap.min.css"
-import NavbarHeader from "../src/global/navbar/NavbarHeader";
+import Header from "./header/Header";
+import Footer from "./footer/Footer";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
-import MainPage from "../src/pages/main/MainPage";
-import ContactsPage from "../src/pages/contacts/ContactsPage";
-import CataloguePage from "../src/pages/catalogue/CataloguePage";
-import UserPage from "./pages/user/UserPage";
 import Interceptors from "./axios";
-import LoginPage from "./pages/user/LoginPage";
-import RegistrationPage from "./pages/user/RegistrationPage";
-import {useCookies} from "react-cookie";
+import React from "react";
+import Body from "./body/Body"
 
 const App = () => {
   Interceptors();
   return (
-      <>
-          <BrowserRouter>
-              <NavbarHeader/>
-              <Routes>
-                  <Route path="/" element={<MainPage/>}/>
-                  <Route path="/login" element={<LoginPage/>}/>
-                  <Route path="/registration" element={<RegistrationPage/>}/>
-                  <Route path="/contact" element={<ContactsPage/>}/>
-                  <Route path="/profile" element={<UserPage/>}/>
-                  <Route path="/catalogue" element={<CataloguePage/>}/>
-              </Routes>
-        </BrowserRouter>
-
-      </>
-  )
+      <BrowserRouter>
+            <div className={"gridApp"}>
+                <Header/>
+                <Body/>
+                <Footer/>
+            </div>
+      </BrowserRouter>
+    )
 }
 export default App;

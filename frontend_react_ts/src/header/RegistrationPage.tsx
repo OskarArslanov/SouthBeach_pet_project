@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import axios from "axios";
 import {Button} from "react-bootstrap";
-import InputControl from "../../components/InputControl";
+import InputControl from "../components/InputControl";
 import InputMask from "react-input-mask";
 
 const RegistrationPage = () => {

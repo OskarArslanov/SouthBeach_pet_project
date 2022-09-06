@@ -1,10 +1,10 @@
 import React from "react";
 
-const MainPage = () => {
+const HelpPage = () => {
     return (
         <>
 
         </>
     )
 }
-export default MainPage;
+export default HelpPage;

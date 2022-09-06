@@ -1,10 +1,13 @@
-import {Button, Container, Form} from "react-bootstrap";
+import {Button, Form} from "react-bootstrap";
 import React, {useEffect, useState} from "react";
 import {useAppDispatch, useAppSelector} from "../../hooks/redux";
 import {fetchUser} from "../../store/actions/userActions";
 import InputMask from "react-input-mask";
 import axios from "axios";
-
+import Menu from "./Menu";
+import Content from "./Content";
+import Recomms from "./Recomms";
+import "../../styles/Profile.css"
 const UserPage = () => {
     const dispatch = useAppDispatch();
     const {error, loading, user} = useAppSelector(state => state.user);
@@ -71,22 +74,18 @@ const UserPage = () => {
         )
     }
     return (
-        <Container>
-            <div className={"row"}>
-                <div className={"col"}>
-                    {loading ? <div> Loading... </div> : userInputs()}
-                    {error? <div className={"text-center text-red-600"}>{error}</div> : ''}
-                </div>
-                <div className={"col"}>
-                    <div className={"row"}>
-                        Cart
-                    </div>
-                    <div className={"row"}>
-                        Cart elements
-                    </div>
-                </div>
+        <div className={"grid"}>
+            <div className={"menu"}>
+                <Menu></Menu>
             </div>
-        </Container>
+            <div className={"content"}>
+                <Content></Content>
+            </div>
+            <div className={"recomms"}>
+                <Recomms></Recomms>
+            </div>
+
+        </div>
     )
 }
 export default UserPage;

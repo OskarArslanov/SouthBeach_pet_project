@@ -1,10 +1,10 @@
 import React from "react";
 
-const MainPage = () => {
+const Recomms = () => {
     return (
         <>
-
+            Recommends
         </>
     )
 }
-export default MainPage;
+export default Recomms;

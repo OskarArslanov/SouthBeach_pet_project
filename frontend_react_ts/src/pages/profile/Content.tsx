@@ -1,10 +1,10 @@
 import React from "react";
 
-const MainPage = () => {
+const Content = () => {
     return (
         <>
-
+            Menu Content
         </>
     )
 }
-export default MainPage;
+export default Content;

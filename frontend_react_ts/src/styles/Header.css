@@ -1,0 +1,59 @@
+.gridHeader {
+  margin: 20px ;
+  display: grid;
+  grid-template-columns: 1fr 4fr 1fr;
+  /*gap: 20px;*/
+}
+
+.logo {
+  display: grid;
+  grid-template-columns: auto;
+}
+
+.content {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  text-align: center;
+  font-family: system-ui,-apple-system,system-ui,"Helvetica Neue",Monospaced, "Lucida Bright";
+  gap: 20px;
+}
+
+.authBar {
+  display: grid;
+  grid-template-columns: auto auto;
+}
+
+.link {
+  margin-left: 30px;
+  text-align: center;
+  font-size: 24px;
+  color: #ffffff;
+  transition: 0.5s;
+  cursor: pointer;
+}
+
+.link:hover {
+  font-size: 24px;
+  transform: scale(1.1);
+  color: #f1ff00;
+}
+
+.headerButton {
+  font-family: system-ui,-apple-system,system-ui,"Helvetica Neue",Monospaced, "Lucida Bright";
+  color: white;
+  box-shadow: rgba(0, 0, 0, 0.2) 0 1px 3px 0;
+  text-align: center;
+  border-radius: 15px;
+  transition: 0.5s;
+  cursor: pointer;
+  width: 150px;
+  line-height: 30px;
+
+}
+
+.headerButton:hover {
+  color: #f1ff00;
+  background-color: #4fa3fa;
+}
+
+
