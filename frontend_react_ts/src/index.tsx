@@ -4,6 +4,7 @@ import './styles/index.css';
 import App from './App';
 import {Provider} from "react-redux";
 import {setupStore} from "./store";
+import {CookiesProvider} from "react-cookie";
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -14,7 +15,9 @@ const store = setupStore();
 
 root.render(
     <Provider store={store}>
-        <App />
+        <CookiesProvider>
+            <App />
+        </CookiesProvider>
     </Provider>
 );
 

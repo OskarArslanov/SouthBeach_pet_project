@@ -9,23 +9,25 @@ import UserPage from "./pages/user/UserPage";
 import Interceptors from "./axios";
 import LoginPage from "./pages/user/LoginPage";
 import RegistrationPage from "./pages/user/RegistrationPage";
+import {useCookies} from "react-cookie";
 
-export default function() {
+const App = () => {
   Interceptors();
-  localStorage.setItem("_logged", "false");
   return (
       <>
           <BrowserRouter>
-          <NavbarHeader logged={localStorage.getItem("_logged")} onClick={() => localStorage.setItem("_logged", "false")}/>
-          <Routes>
-            <Route path="/" element={<MainPage/>}/>
-            <Route path="/login" element={<LoginPage/>}/>
-            <Route path="/registration" element={<RegistrationPage/>}/>
-            <Route path="/contact" element={<ContactsPage/>}/>
-            <Route path="/profile" element={<UserPage/>}/>
-            <Route path="/catalogue" element={<CataloguePage/>}/>
-          </Routes>
+              <NavbarHeader/>
+              <Routes>
+                  <Route path="/" element={<MainPage/>}/>
+                  <Route path="/login" element={<LoginPage/>}/>
+                  <Route path="/registration" element={<RegistrationPage/>}/>
+                  <Route path="/contact" element={<ContactsPage/>}/>
+                  <Route path="/profile" element={<UserPage/>}/>
+                  <Route path="/catalogue" element={<CataloguePage/>}/>
+              </Routes>
         </BrowserRouter>
+
       </>
   )
 }
+export default App;

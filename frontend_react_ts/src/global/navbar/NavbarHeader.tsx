@@ -1,12 +1,9 @@
 import "./NavbarStyle.css";
-import React, {useEffect} from "react";
 import {Link, useNavigate} from "react-router-dom";
 import {Button, Container, Nav, Navbar, NavLink} from 'react-bootstrap'
-import {load, loadAll} from "react-cookies";
 import axios from "axios";
 
-
-const NavbarHeader = (props:any) => {
+const NavbarHeader = () => {
     let navigate = useNavigate();
     const unAuthenticated =
         <Nav style={{display: "flex", marginLeft: "auto"}}>
@@ -17,12 +14,11 @@ const NavbarHeader = (props:any) => {
 
     const handleLogout = async () => {
         const response = await axios.get("/auth/logout");
-        if (response.status === 200)
-        navigate("/")
-        props.onClick("true")
-        console.log(props)
+        if (response.status === 200) {
+            localStorage.clear()
+            navigate("/")
+        }
     }
-
     const authenticated =
         <Nav style={{display: "flex", marginLeft: "auto"}}>
             <Button variant={"primary"} onClick={()=> navigate("/profile")}> Профиль </Button>
@@ -42,7 +38,7 @@ const NavbarHeader = (props:any) => {
                             <NavLink as={Link} to="/contact">Контакты</NavLink>
                         </Nav>
                     </Navbar.Collapse>
-                {props.logged ? authenticated : unAuthenticated}
+                {localStorage.getItem("_logged") === "true" ? authenticated : unAuthenticated}
                 </Container>
             </Navbar>
     )

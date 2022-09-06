@@ -6,6 +6,8 @@ import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.UnsupportedJwtException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -31,19 +33,18 @@ public class JwtFilter extends OncePerRequestFilter {
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
         log.info("FILTER REQUEST START : "+request.getRequestURL());
-        Cookie _logged = new Cookie("_logged", "false");
-        _logged.setHttpOnly(false);
-        _logged.setMaxAge(10000000);
+        ResponseCookie logged;
         try {
             Cookie[] cookies = request.getCookies();
             String access_token = jwtProvider.getTokenFromCookie("access_token", cookies);
             log.info("got access_token");
             validatingAccessCookie(access_token);
-            _logged.setValue("true");
+            logged = ResponseCookie.from("_logged", "true").maxAge(100000).build();
         } catch (Exception e) {
+            logged = ResponseCookie.from("_logged", "false").build();
             log.error("auth cookies are null");
         }
-        response.addCookie(_logged);
+        response.setHeader(HttpHeaders.COOKIE, logged.toString());
         filterChain.doFilter(request, response);
     }
 

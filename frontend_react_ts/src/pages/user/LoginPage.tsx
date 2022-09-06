@@ -3,18 +3,20 @@ import {Button} from "react-bootstrap";
 import axios from "axios";
 import InputControl from "../../components/InputControl";
 import {save} from "react-cookies";
+import {useNavigate} from "react-router-dom";
 
 const LoginPage = () => {
     let [error, setError] = useState(false);
     let [email, setEmail] = useState('');
     let [password, setPassword] = useState('');
-
+    let navigate = useNavigate()
     const login = async () => {
         try {
             const response = await axios.post("/auth/login", {email, password}, {withCredentials:true});
-            setError(false);
+            setError(false)
             if (response.status === 200) {
-                window.location.replace("http://localhost:3000/profile");
+                localStorage.setItem("_logged", "true")
+                navigate("/profile")
             }
         } catch (error) {
             // @ts-ignore
