@@ -63,9 +63,9 @@ const RegistrationPage = () => {
             <div className={"bodyContent"}>
                 <div className={"registrationGrid"}>
                     <div>
-                        <InputControl title="Почта" type={"email"} placeholder={"example@google.com"}
+                        <InputControl name={"email"} title="Почта" type={"email"} placeholder={"example@google.com"}
                                       value={email} onChange={setEmail}/>
-                        <InputControl title="Пароль" type={"password"} placeholder={"*********"}
+                        <InputControl name={"password"} title="Пароль" type={"password"} placeholder={"*********"}
                                       value={password} onChange={setPassword}/>
                         <label htmlFor="confirmPassword">Подтверждение пароля</label>
                         <input type="password" className={cPasswordClass} id="confirmPassword"
@@ -73,11 +73,11 @@ const RegistrationPage = () => {
                         {error ? <div> Имя пользователя занято </div> : ''}
                     </div>
                     <div>
-                        <InputControl title="Фамилия" type={"text"} placeholder={"Иванов"}
+                        <InputControl name={"lastname"} title="Фамилия" type={"text"} placeholder={"Иванов"}
                                       value={lastname} onChange={setLastname}/>
-                        <InputControl title="Имя" type={"text"} placeholder={"Иван"}
+                        <InputControl name={"firstname"} title="Имя" type={"text"} placeholder={"Иван"}
                                       value={firstname} onChange={setFirstname}/>
-                        <InputControl title="Отчество" type={"text"} placeholder={"Иванович"}
+                        <InputControl name={"parentname"} title="Отчество" type={"text"} placeholder={"Иванович"}
                                       value={parentname} onChange={setParentname}/>
                         <div>
                             <label htmlFor="phone">Номер телефона</label>

@@ -2,17 +2,9 @@ import axios from "axios";
 import {AppDispatch} from "../index";
 import {IProduct} from "../../models/entities";
 import {productSlice} from "../slices/productSlice";
+import {ProductsParamRequest} from "../../models/request";
 
-interface ProductsProps {
-    name? : string,
-    type?: [],
-    availableAmount? : number,
-    dayPrice?: [number],
-    weekPrice?: [number],
-    monthPrice?: [number]
-}
-
-export const fetchProducts = (props: ProductsProps) => {
+export const fetchProducts = (props: ProductsParamRequest) => {
     return async (dispatch: AppDispatch) => {
         try {
             dispatch(productSlice.actions.fetching())

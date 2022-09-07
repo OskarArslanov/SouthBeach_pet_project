@@ -33,9 +33,9 @@ const LoginPage = () => {
             <div className={"bodyNavs"}>navs</div>
             <div className={"bodyContent"}>
                 <div className={"loginGrid"}>
-                    <InputControl title="Почта" type={"email"} placeholder={"example@google.com"}
+                    <InputControl name={"email"} title="Почта" type={"email"} placeholder={"example@google.com"}
                                   value={email} onChange={setEmail}/>
-                    <InputControl title="Пароль" type={"password"} placeholder={"*********"}
+                    <InputControl name={"password"} title="Пароль" type={"password"} placeholder={"*********"}
                                   value={password} onChange={setPassword}/>
                     {error ? <div>Введены не верные данные</div> : ''}
                     <div className={"authButton"} onClick={login}>Войти</div>
