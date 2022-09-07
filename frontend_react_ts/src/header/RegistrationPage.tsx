@@ -58,58 +58,45 @@ const RegistrationPage = () => {
     }
 
     return (
-        <div className={"container"} style={{marginTop: "20px"}}>
-            <div className={"row"}>
-                <div className={"col"}>
-                    <div className={"row"}>
-                        <div className={"col"}>
-                            {/*===================//email and password column//=================*/}
-                            <div className={"col"}>
-                                <InputControl title="Почта" type={"email"} placeholder={"example@google.com"}
-                                              value={email} onChange={setEmail}/>
-                            </div>
-                            <div className={"col"}>
-                                <InputControl title="Пароль" type={"password"} placeholder={"*********"}
-                                              value={password} onChange={setPassword}/></div>
-                            <label htmlFor="confirmPassword" className="form-label">Подтверждение пароля</label>
-                            <input type="password" className={cPasswordClass}
-                                   id="confirmPassword" value={cPassword} placeholder={"*************"}
-                                   onChange={handleCPassword}/>
-                            {error ? <div> Имя пользователя занято </div> : ''}
+        <>
+            <div className={"bodyNavs"}>navs</div>
+            <div className={"bodyContent"}>
+                <div className={"registrationGrid"}>
+                    <div>
+                        <InputControl title="Почта" type={"email"} placeholder={"example@google.com"}
+                                      value={email} onChange={setEmail}/>
+                        <InputControl title="Пароль" type={"password"} placeholder={"*********"}
+                                      value={password} onChange={setPassword}/>
+                        <label htmlFor="confirmPassword">Подтверждение пароля</label>
+                        <input type="password" className={cPasswordClass} id="confirmPassword"
+                               value={cPassword} placeholder={"*************"} onChange={handleCPassword}/>
+                        {error ? <div> Имя пользователя занято </div> : ''}
+                    </div>
+                    <div>
+                        <InputControl title="Фамилия" type={"text"} placeholder={"Иванов"}
+                                      value={lastname} onChange={setLastname}/>
+                        <InputControl title="Имя" type={"text"} placeholder={"Иван"}
+                                      value={firstname} onChange={setFirstname}/>
+                        <InputControl title="Отчество" type={"text"} placeholder={"Иванович"}
+                                      value={parentname} onChange={setParentname}/>
+                        <div>
+                            <label htmlFor="phone">Номер телефона</label>
+                            <InputMask className="form-control"
+                                       mask={"+7(999)-999-99-99"}
+                                       value={phone}
+                                       placeholder={"+7(999)-999-99-99"}
+                                       onChange={(e) => {setPhone(e.target.value)
+                                       }}>
+                            </InputMask>
                         </div>
-                        <div className={"col"}>
-                            {/*===================//name and phone column//=================*/}
-                            <InputControl title="Фамилия" type={"text"} placeholder={"Иванов"}
-                                          value={lastname} onChange={setLastname}/>
-                            <InputControl title="Имя" type={"text"} placeholder={"Иван"}
-                                          value={firstname} onChange={setFirstname}/>
-                            <InputControl title="Отчество" type={"text"} placeholder={"Иванович"}
-                                          value={parentname} onChange={setParentname}/>
-                            <div>
-                                <label htmlFor="phone" className="form-label">Номер
-                                    телефона</label>
-                                <InputMask className="form-control"
-                                           mask={"+7(999)-999-99-99"}
-                                           value={phone}
-                                           placeholder={"+7(999)-999-99-99"}
-                                           onChange={(e) => {setPhone(e.target.value)
-                                           }}>
-                                </InputMask>
-                            </div>
-                            {/*===================//register button//=================*/}
-                            <Button style={{marginTop: "10px", display: "flex", marginLeft:"auto"}}
-                                        onClick={register}>Зарегистрироваться</Button>
-                        </div>
+                        <div className={"authButton"} onClick={register}>Регистрация</div>
                     </div>
                 </div>
-                <div className={"col"} style={{textAlign: "center"}}>
-                    Информация о сервисе
-                </div>
             </div>
-            <div className={"row"}>
-                <div style={{textAlign: "center"}}> -- КАРУСЕЛЬ -- </div>
+            <div className={"bodyRecommends"}>
+                Информация о сервисе
             </div>
-        </div>
+        </>
     )
 }
 export default RegistrationPage;

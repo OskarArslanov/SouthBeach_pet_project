@@ -2,8 +2,8 @@ import React, {useEffect, useState} from "react";
 import {Button} from "react-bootstrap";
 import axios from "axios";
 import InputControl from "../components/InputControl";
-import {save} from "react-cookies";
 import {useNavigate} from "react-router-dom";
+import "../styles/Auth.css"
 
 const LoginPage = () => {
     let [error, setError] = useState(false);
@@ -29,28 +29,20 @@ const LoginPage = () => {
     }
 
     return (
-        <div className={"container"} style={{marginTop: "20px"}}>
-            <div className={"row"}>
-                <div className={"col"}>
-                    <div className={"col"}>
-                        <InputControl title="Почта" type={"email"}
-                                      placeholder={"example@google.com"}
-                                      value={email} onChange={setEmail}/>
-                    </div>
-                    <div className={"col"}>
-                        <InputControl title="Пароль" type={"password"}
-                                      placeholder={"*********"}
-                                      value={password} onChange={setPassword}/></div>
+        <>
+            <div className={"bodyNavs"}>navs</div>
+            <div className={"bodyContent"}>
+                <div className={"loginGrid"}>
+                    <InputControl title="Почта" type={"email"} placeholder={"example@google.com"}
+                                  value={email} onChange={setEmail}/>
+                    <InputControl title="Пароль" type={"password"} placeholder={"*********"}
+                                  value={password} onChange={setPassword}/>
                     {error ? <div>Введены не верные данные</div> : ''}
-                    <Button style={{marginTop: "10px", display: "flex", marginLeft:"auto"}}
-                            onClick={login}>Войти</Button>
-                </div>
-                <div className={"col"} style={{textAlign: "center"}}>
-                    Информация о сервисе
+                    <div className={"authButton"} onClick={login}>Войти</div>
                 </div>
             </div>
-            <div style={{textAlign: "center"}}> -- КАРУСЕЛЬ -- </div>
-        </div>
+            <div className={"bodyRecommends"}>Информация о сервисе</div>
+        </>
     )
 }
 export default LoginPage;

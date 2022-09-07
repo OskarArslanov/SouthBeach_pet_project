@@ -11,7 +11,7 @@ const App = () => {
   Interceptors();
   return (
       <BrowserRouter>
-            <div className={"gridApp"}>
+            <div className={"app"}>
                 <Header/>
                 <Body/>
                 <Footer/>

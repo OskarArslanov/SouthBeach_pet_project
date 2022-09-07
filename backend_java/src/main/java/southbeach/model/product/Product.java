@@ -36,7 +36,6 @@ public class Product {
     @ManyToMany(mappedBy = "products")
     private Set<User> users = new HashSet<>();
 
-    @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER,
             cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @Fetch(value = FetchMode.SELECT)

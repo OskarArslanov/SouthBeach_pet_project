@@ -7,7 +7,8 @@ import axios from "axios";
 import Menu from "./Menu";
 import Content from "./Content";
 import Recomms from "./Recomms";
-import "../../styles/Profile.css"
+import "../../styles/Body.css"
+
 const UserPage = () => {
     const dispatch = useAppDispatch();
     const {error, loading, user} = useAppSelector(state => state.user);
@@ -74,18 +75,17 @@ const UserPage = () => {
         )
     }
     return (
-        <div className={"grid"}>
-            <div className={"menu"}>
-                <Menu></Menu>
-            </div>
-            <div className={"content"}>
-                <Content></Content>
-            </div>
-            <div className={"recomms"}>
-                <Recomms></Recomms>
-            </div>
-
-        </div>
+            <>
+                <div className={"bodyNavs"}>
+                    <Menu></Menu>
+                </div>
+                <div className={"bodyContent"}>
+                    <Content></Content>
+                </div>
+                <div className={"bodyRecommends"}>
+                    <Recomms></Recomms>
+                </div>
+            </>
     )
 }
 export default UserPage;

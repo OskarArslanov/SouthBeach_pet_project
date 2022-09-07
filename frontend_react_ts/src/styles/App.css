@@ -4,7 +4,7 @@ body {
     overflow-y: hidden;
 }
 
-.gridApp {
+.app {
     display: grid;
     width: 100%;
     grid-template-rows: auto auto auto;
@@ -30,3 +30,8 @@ body {
 /*    grid-row-start: 3;*/
 /*    grid-row-end: 4;*/
 /*}*/
+
+fieldset {
+    background: #ffffff;
+    border: 15px solid #1f3c8a;
+}

@@ -13,6 +13,7 @@ import java.util.Set;
 @Getter
 @Table(name = "types_of_products")
 public class Type {
+    @JsonIgnore
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)

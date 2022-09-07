@@ -1,24 +1,25 @@
-.gridHeader {
+.header {
   margin: 20px ;
   display: grid;
   grid-template-columns: 1fr 4fr 1fr;
   /*gap: 20px;*/
 }
 
-.logo {
+.headerLogo {
   display: grid;
   grid-template-columns: auto;
 }
 
-.content {
+.headerContent {
   display: grid;
   grid-template-columns: auto auto auto;
+  grid-template-rows: 1fr;
   text-align: center;
   font-family: system-ui,-apple-system,system-ui,"Helvetica Neue",Monospaced, "Lucida Bright";
   gap: 20px;
 }
 
-.authBar {
+.headerAuth {
   display: grid;
   grid-template-columns: auto auto;
 }
@@ -35,7 +36,7 @@
 .link:hover {
   font-size: 24px;
   transform: scale(1.1);
-  color: #f1ff00;
+  color: #1f3c8a;
 }
 
 .headerButton {
@@ -48,12 +49,12 @@
   cursor: pointer;
   width: 150px;
   line-height: 30px;
-
+  background-color: #4fa3fa;
 }
 
 .headerButton:hover {
-  color: #f1ff00;
-  background-color: #4fa3fa;
+  color: #ffffff;
+  background-color: #1f3c8a;
 }
 
 

@@ -25,16 +25,16 @@ const Header = () => {
 
 
     return (
-        <div className={"gridHeader"}>
-                <div className={"logo"}>
+        <div className={"header"}>
+                <div className={"headerLogo"}>
                     <div className={"link"} onClick={() => navigate("/")}>SouthBeach</div>
                 </div>
-                <div className={"content"}>
+                <div className={"headerContent"}>
                     <div className={"link"} onClick={() => navigate("/catalogue")}>Каталог</div>
                     <div className={"link"} onClick={() => navigate("/contacts")}>Контакты</div>
                     <div className={"link"} onClick={() => navigate("/help")}>Помощь</div>
                 </div>
-                <div className={"authBar"}>
+                <div className={"headerAuth"}>
                     {localStorage.getItem("_logged") === "true" ? authenticated : unAuthenticated}
                 </div>
         </div>
