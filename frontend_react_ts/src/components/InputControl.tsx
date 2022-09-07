@@ -3,7 +3,7 @@ import React, {FunctionComponent, useState} from "react";
 interface IProps {
     title : string,
     type : string,
-    value? : string,
+    value : string,
     placeholder? : string,
     onChange : any
 }
