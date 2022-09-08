@@ -7,6 +7,7 @@ import southbeach.exceptions.ProductAlreadyExistException;
 import southbeach.exceptions.ProductNotFoundException;
 import southbeach.model.product.Product;
 import southbeach.model.product.ProductDTO;
+import southbeach.model.product.Type;
 import southbeach.model.user.User;
 import southbeach.repository.ProductRepository;
 import southbeach.repository.UserRepository;
@@ -15,6 +16,8 @@ import southbeach.service.ProductService;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class ProductServiceV1 implements ProductService {
@@ -65,9 +68,14 @@ public class ProductServiceV1 implements ProductService {
 
     @Override
     public List<Product> getAllProducts(Map<String, String> params) throws RuntimeException {
-        var types = params.get("types");
-//        params.get("")
-        System.out.println(params);
+        if (params != null) {
+            Set<Type> types = Stream.of(params.get("types").split(","))
+                                    .map(type -> Type.builder().type(type).build())
+                                    .collect(Collectors.toSet());
+            types.forEach(x -> System.out.println(x.getType()));
+
+        }
+
         var products = productRepository.findAll();
         products.forEach(System.out::println);
         System.out.println("products : " + products.size());
