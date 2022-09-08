@@ -2,17 +2,17 @@ import React, {ChangeEventHandler} from "react";
 
 
 interface IProps {
-    label: string,
-    value: string,
+    title: string,
+    checked: boolean | undefined,
     name: string,
-    onChange: ChangeEventHandler<HTMLInputElement>
+    onChange: any
 }
 const CheckBox = (props:IProps) => {
     return (
         <label className="container">
-            <input name={props.name} type="checkbox" value={props.value} onChange={props.onChange}/>
-            {props.label}
-            <span className="checkmark"></span>
+            <input name={props.name} type="checkbox" checked={props.checked}  onChange={props.onChange}/>
+            {props.title}
+            {/*<span className="checkmark"></span>*/}
         </label>
     )
 }

@@ -13,6 +13,7 @@ import southbeach.repository.UserRepository;
 import southbeach.service.ProductService;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @Service
@@ -63,7 +64,10 @@ public class ProductServiceV1 implements ProductService {
     }
 
     @Override
-    public List<Product> getAllProducts() throws RuntimeException {
+    public List<Product> getAllProducts(Map<String, String> params) throws RuntimeException {
+        var types = params.get("types");
+//        params.get("")
+        System.out.println(params);
         var products = productRepository.findAll();
         products.forEach(System.out::println);
         System.out.println("products : " + products.size());

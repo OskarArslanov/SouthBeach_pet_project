@@ -7,6 +7,7 @@ import southbeach.model.product.Product;
 import southbeach.model.product.ProductDTO;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public interface ProductService {
@@ -17,7 +18,7 @@ public interface ProductService {
                                                             ProductNotFoundException;
     Set<Product> getProducts(String username) throws UsernameNotFoundException;
 
-    List<Product> getAllProducts() throws RuntimeException;
+    List<Product> getAllProducts(Map<String, String> params) throws RuntimeException;
 
 
 }

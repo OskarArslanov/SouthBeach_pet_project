@@ -32,6 +32,7 @@ public class JwtFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
+        log.info(request.getRequestURL().toString());
         log.info("FILTER REQUEST START : "+request.getRequestURL());
         ResponseCookie logged;
         try {

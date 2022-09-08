@@ -16,10 +16,12 @@
     "bootstrap": "^5.2.0",
     "eslint": "8.22.0",
     "multi-range-slider-react": "^1.0.7",
+    "qs": "^6.11.0",
     "react": "^18.2.0",
     "react-bootstrap": "^2.5.0",
     "react-cookie": "^4.1.1",
     "react-cookies": "^0.1.1",
+    "react-datetime-picker": "^3.5.0",
     "react-dom": "^18.2.0",
     "react-dual-range-slider": "^1.0.4",
     "react-hook-form": "^7.34.2",
@@ -60,6 +62,7 @@
   },
   "devDependencies": {
     "@types/react-cookies": "^0.1.0",
-    "@types/react-input-mask": "^3.0.1"
+    "@types/react-input-mask": "^3.0.1",
+    "@types/react-time-picker": "^4.0.2"
   }
 }

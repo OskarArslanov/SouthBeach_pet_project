@@ -5,103 +5,81 @@ import ProductCard from "./ProductCard";
 import InputControl from "../../components/InputControl";
 import CheckBox from "../../components/CheckBox";
 import MultiRangeSlider from "../../components/MultiRangeSlider";
-import {ProductsParamRequest} from "../../models/request";
-import {useForm} from "react-hook-form"
+import {ProductsParamRequest, Range} from "../../models/request";
+import "./../../styles/Catalogue.css"
 
-const minPrice = 0;
-const maxPrice = 100000;
+const initRange: Range = {
+    min: 0,
+    max: 100000
+}
 const defaultRequest: ProductsParamRequest = {
     name: "",
-    availableAmount: -1,
-    type: ["forest", "sea", "river", "mount", "rent"],
-    hourPrice: [minPrice, maxPrice],
-    dayPrice: [minPrice, maxPrice],
-    weekPrice: [minPrice, maxPrice],
-    monthPrice: [minPrice, maxPrice]}
+    availableAmount: undefined,
+    types: [],
+    hourPrice: initRange,
+    dayPrice: initRange,
+    weekPrice: initRange,
+    monthPrice: initRange
+}
 export default function () {
     const dispatch = useAppDispatch();
     const {error, loading, products} = useAppSelector(state => state.products);
 
-    let [forest, setForest] = useState(false)
-    let [sea, setSea] = useState(false)
-    let [vehicle, setVehicle] = useState(false)
-    let [river, setRiver] = useState(false)
-    let [mount, setMount] = useState(false)
-    let [name, setName] = useState("")
-    let [availableAmount, setAvailableAmount] = useState(0)
     let [params, setParams] = useState(defaultRequest)
-
-    let [hourPrice, setHourPrice] = useState([minPrice, maxPrice])
-    let [dayPrice, setDayPrice] = useState([minPrice, maxPrice])
-    let [weekPrice, setWeekPrice] = useState([minPrice, maxPrice])
-    let [monthPrice, setMonthPrice] = useState([minPrice, maxPrice])
 
     useEffect(() => {
         dispatch(fetchProducts({}))
     }, [])
 
-    const checkBoxHandler = (e:ChangeEvent<HTMLInputElement>) => {
-        let value = e.target.checked;
-        let name = e.target.value;
-        switch (name) {
-            case "forest":setForest(value);break;
-            case "sea":setSea(value);break;
-            case "river":setRiver(value);break;
-            case "mount":setMount(value);break;
-            case "vehicle":setVehicle(value);break;
-        }
+    const handleSearch = () => {
+        dispatch(fetchProducts(params))
+        console.log(params)
     }
-
-    const handleSliderChange = (e : { name: string, min: number, max: number }) => {
-        let range = [e.min, e.max]
-        let title = e.name
-        switch (title) {
-            case "hour" : setHourPrice(range);break;
-            case "day" : setDayPrice(range);break;
-            case "week" : setWeekPrice(range);break;
-            case "month" : setMonthPrice(range);break;
-        }
-    }
-    const handleSearch = (e: React.FormEvent<HTMLDivElement>) => {
-        // console.log(e.currentTarget.parentElement.getRootNode())
-        // e.currentTarget.parentElement.children.namedItem("name");
-        // console.log(e.currentTarget.parentElement.)
+    const selectTypes = (name:string, array:string[] | undefined) => {
+        // @ts-ignore
+        const index = array.indexOf(name)
+        index === -1 ? array?.push(name) : array?.splice(index, 1)
+        console.log(array)
+        return array
     }
 
     return (
         <>
-            <form className={"bodyNavs"}>
-                <div>
-                    <InputControl name={"name"} title={"Название :"} type={"text"} value={name} onChange={setName}/>
-                </div>
-                <div>Категории :
-                    <CheckBox name={"forest"} label={" В лес "} value={"forest"} onChange={checkBoxHandler}/>
-                    <CheckBox name={"sea"} label={" На море "} value={"sea"} onChange={checkBoxHandler}/>
-                    <CheckBox name={"river"} label={" На реку "} value={"river"} onChange={checkBoxHandler}/>
-                    <CheckBox name={"mount"} label={" В горы "} value={"mount"} onChange={checkBoxHandler}/>
-                    <CheckBox name={"wheels"} label={" Колеса "} value={"vehicle"} onChange={checkBoxHandler}/>
-                </div>
-                <div>Цена за час :
-                    <MultiRangeSlider name={"hour"} min={0} max={100000} onChange={handleSliderChange}/>
-                </div>
-                <div>Цена за сутки :
-                    <MultiRangeSlider name={"day"} min={0} max={100000} onChange={handleSliderChange}/>
-                </div>
-                <div>Цена за неделю :
-                    <MultiRangeSlider name={"week"} min={0} max={100000} onChange={handleSliderChange}/>
-                </div>
-                <div>Цена за месяц :
-                    <MultiRangeSlider name={"month"} min={0} max={100000} onChange={handleSliderChange}/>
-                </div>
-                <div>Доступное количество :
-                    <input name={"availableAmount"} type={"number"} value={availableAmount}/>
-                </div>
-                <div className={"authButton"} onClick={event => handleSearch(event)}>Искать</div>
-            </form>
+            <div className={"bodyNavs"}>
+                <div className={"catalogueFilter"}>
+                    <InputControl name={"name"} title={"Название :"} type={"text"} value={params.name}
+                                  onChange={(e:string)=>setParams({...params, name:e})}/>
+                    <div> Категории :
+                        <CheckBox name={"forest"} title={" В лес "} checked={params.types?.includes("forest")}
+                                  onChange={()=>setParams({...params, types: selectTypes("forest", params.types)})}/>
+                        <CheckBox name={"sea"} title={" На море "} checked={params.types?.includes("sea")}
+                                  onChange={()=>setParams({...params, types: selectTypes("sea", params.types)})}/>
+                        <CheckBox name={"river"} title={" На реку "} checked={params.types?.includes("river")}
+                                  onChange={()=>setParams({...params, types: selectTypes("river", params.types)})}/>
+                        <CheckBox name={"mount"} title={" В горы "} checked={params.types?.includes("mount")}
+                                  onChange={()=>setParams({...params, types: selectTypes("mount", params.types)})}/>
+                        <CheckBox name={"vehicle"} title={" Колеса "} checked={params.types?.includes("vehicle")}
+                                  onChange={()=>setParams({...params, types: selectTypes("vehicle", params.types)})}/>
+                    </div>
+                    <MultiRangeSlider name={"hourCost"} title={"Стоимость за час :"}  min={0} max={100000}
+                                      onChange={(range: Range) => setParams({...params, hourPrice:range}) }/>
+                    <MultiRangeSlider name={"dayCost"} title={"Стоимость за 24 часа :"}  min={0} max={100000}
+                                      onChange={(range: Range) => setParams({...params, dayPrice:range}) }/>
+                    <MultiRangeSlider name={"weekCost"} title={"Стоимость за неделю :"}  min={0} max={100000}
+                                      onChange={(range: Range) => setParams({...params, weekPrice:range}) }/>
+                    <MultiRangeSlider name={"monthCost"} title={"Стоимость за месяц :"}  min={0} max={100000}
+                                      onChange={(range: Range) => setParams({...params, monthPrice:range}) }/>
+                    <div> Доступное количество :
+                        <input name={"availableAmount"} type={"number"} value={params.availableAmount}
+                               onChange={(e)=>setParams({...params, availableAmount: Number(e.target.value)})}/>
+                    </div>
+                    <div className={"authButton"} onClick={handleSearch}>Искать</div>
+            </div>
+            </div>
             <div className={"bodyContent"}>
-                <div className={"gridCatalogue"}>
-                    {products.map(product => <ProductCard key={product.id} product={product}/>)}
-                </div>
+                 <div className={"gridCatalogue"}>
+                     {products.map(product => <ProductCard key={product.id} product={product}/>)}
+                 </div>
             </div>
             <div className={"bodyRecommends"}>recommends</div>
         </>

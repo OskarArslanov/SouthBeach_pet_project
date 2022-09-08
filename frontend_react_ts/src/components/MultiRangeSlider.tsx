@@ -1,15 +1,17 @@
 import {ChangeEvent, FC, useCallback, useEffect, useState, useRef} from "react";
 import classnames from "classnames";
 import "./multiRangeSlider.css";
+import "./../models/request"
 
 interface MultiRangeSliderProps {
+    title: string;
     name: string;
     min: number;
     max: number;
     onChange: Function;
 }
 
-const MultiRangeSlider: FC<MultiRangeSliderProps> = ({name,min, max, onChange}) => {
+const MultiRangeSlider: FC<MultiRangeSliderProps> = ({title, name,min, max, onChange}) => {
     const [minVal, setMinVal] = useState(min);
     const [maxVal, setMaxVal] = useState(max);
     const minValRef = useRef<HTMLInputElement>(null);
@@ -47,36 +49,40 @@ const MultiRangeSlider: FC<MultiRangeSliderProps> = ({name,min, max, onChange}) 
 
     // Get min and max values when their state changes
     useEffect(() => {
-        onChange({ name: name, min: minVal, max: maxVal });
+        onChange({min: minVal, max: maxVal});
     }, [minVal, maxVal]);
 
     return (
-        <div className="sliderContainer">
-            <input type="range" min={min} max={max} value={minVal} ref={minValRef}
-                onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                    const value = Math.min(+event.target.value, maxVal - 1);
-                    setMinVal(value);
-                    event.target.value = value.toString();
-                }}
-                className={classnames("thumb thumb--zindex-3", {
-                    "thumb--zindex-5": minVal > max - 100
-                })}
-            />
-            <input type="range" min={min} max={max} value={maxVal} ref={maxValRef}
-                onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                    const value = Math.max(+event.target.value, minVal + 1);
-                    setMaxVal(value);
-                    event.target.value = value.toString();
-                }}
-                className="thumb thumb--zindex-4"
-            />
-            <div className="slider">
-                <div className="slider__track"></div>
-                <div ref={range} className="slider__range"></div>
-                <div className="slider__left-value">{minVal}</div>
-                <div className="slider__right-value">{maxVal}</div>
+        <div>
+            <div>{title}</div>
+            <div className="sliderContainer">
+                <input name={"min"} type="range" min={min} max={max} value={minVal} ref={minValRef}
+                       onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                           const value = Math.min(+event.target.value, maxVal - 1);
+                           setMinVal(value);
+                           event.target.value = value.toString();
+                       }}
+                       className={classnames("thumb thumb--zindex-3", {
+                           "thumb--zindex-5": minVal > max - 100
+                       })}
+                />
+                <input name={"max"} type="range" min={min} max={max} value={maxVal} ref={maxValRef}
+                       onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                           const value = Math.max(+event.target.value, minVal + 1);
+                           setMaxVal(value);
+                           event.target.value = value.toString();
+                       }}
+                       className="thumb thumb--zindex-4"
+                />
+                <div className="slider">
+                    <div className="slider__track"></div>
+                    <div ref={range} className="slider__range"></div>
+                    <div className="slider__left-value">{minVal}</div>
+                    <div className="slider__right-value">{maxVal}</div>
+                </div>
             </div>
         </div>
+
     );
 };
 export default MultiRangeSlider;
