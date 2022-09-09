@@ -1,5 +1,6 @@
 package southbeach.service.impl;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -7,7 +8,7 @@ import southbeach.exceptions.ProductAlreadyExistException;
 import southbeach.exceptions.ProductNotFoundException;
 import southbeach.model.product.Product;
 import southbeach.model.product.ProductDTO;
-import southbeach.model.product.Type;
+import southbeach.model.product.ProductFilter;
 import southbeach.model.user.User;
 import southbeach.repository.ProductRepository;
 import southbeach.repository.UserRepository;
@@ -16,10 +17,9 @@ import southbeach.service.ProductService;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
+@Slf4j
 public class ProductServiceV1 implements ProductService {
     private final UserRepository userRepository;
     private final ProductRepository productRepository;
@@ -67,19 +67,21 @@ public class ProductServiceV1 implements ProductService {
     }
 
     @Override
-    public List<Product> getAllProducts(Map<String, String> params) throws RuntimeException {
-        if (params != null) {
-            Set<Type> types = Stream.of(params.get("types").split(","))
-                                    .map(type -> Type.builder().type(type).build())
-                                    .collect(Collectors.toSet());
-            types.forEach(x -> System.out.println(x.getType()));
-
-        }
-
-        var products = productRepository.findAll();
-        products.forEach(System.out::println);
-        System.out.println("products : " + products.size());
-        if (products.size() == 0) throw new RuntimeException();
-        return products;
+    public List<Product> getAllProducts(Map<String, String> params) {
+        var name = ProductFilter.like(params.get("name"));
+        var hour = ProductFilter.between("hourPrice",
+                                         Double.parseDouble(params.get("hourPrice[min]")),
+                                         Double.parseDouble(params.get("hourPrice[max]")));
+        var day = ProductFilter.between("dayPrice",
+                                        Double.parseDouble(params.get("dayPrice[min]")),
+                                        Double.parseDouble(params.get("dayPrice[max]")));
+        var week = ProductFilter.between("weekPrice",
+                                         Double.parseDouble(params.get("weekPrice[min]")),
+                                         Double.parseDouble(params.get("weekPrice[max]")));
+        var month = ProductFilter.between("monthPrice",
+                                          Double.parseDouble(params.get("monthPrice[min]")),
+                                          Double.parseDouble(params.get("monthPrice[max]")));
+        var available = ProductFilter.greaterOrEqual(params.get("availableAmount"));
+        return productRepository.findAll(hour.and(day.and(week.and(month.and(name.and(available))))));
     }
 }

@@ -9,7 +9,6 @@ export const fetchProducts = (props: ProductsParamRequest) => {
     return async (dispatch: AppDispatch) => {
         try {
             dispatch(productSlice.actions.fetching())
-            console.log(props)
             const response = await axios.get<IProduct[]>('/products', {
                 params: props,
                 paramsSerializer: params => {

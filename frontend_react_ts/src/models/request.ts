@@ -3,11 +3,11 @@ export interface Range {
     max: number,
 }
 export interface ProductsParamRequest {
-    name? : string,
-    types?: string[],
-    availableAmount? : number | undefined,
-    hourPrice?: Range,
-    dayPrice?: Range,
-    weekPrice?: Range,
-    monthPrice?: Range
+    name : string,
+    types: string[],
+    availableAmount : string,
+    hourPrice: Range,
+    dayPrice: Range,
+    weekPrice: Range,
+    monthPrice: Range
 }

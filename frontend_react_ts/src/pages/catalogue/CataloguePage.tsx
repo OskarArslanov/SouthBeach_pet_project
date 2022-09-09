@@ -14,7 +14,7 @@ const initRange: Range = {
 }
 const defaultRequest: ProductsParamRequest = {
     name: "",
-    availableAmount: undefined,
+    availableAmount: "",
     types: [],
     hourPrice: initRange,
     dayPrice: initRange,
@@ -28,18 +28,16 @@ export default function () {
     let [params, setParams] = useState(defaultRequest)
 
     useEffect(() => {
-        dispatch(fetchProducts({}))
+        dispatch(fetchProducts(defaultRequest))
     }, [])
 
     const handleSearch = () => {
         dispatch(fetchProducts(params))
         console.log(params)
     }
-    const selectTypes = (name:string, array:string[] | undefined) => {
-        // @ts-ignore
+    const selectTypes = (name:string, array:string[]) => {
         const index = array.indexOf(name)
         index === -1 ? array?.push(name) : array?.splice(index, 1)
-        console.log(array)
         return array
     }
 
@@ -69,10 +67,8 @@ export default function () {
                                       onChange={(range: Range) => setParams({...params, weekPrice:range}) }/>
                     <MultiRangeSlider name={"monthCost"} title={"Стоимость за месяц :"}  min={0} max={100000}
                                       onChange={(range: Range) => setParams({...params, monthPrice:range}) }/>
-                    <div> Доступное количество :
-                        <input name={"availableAmount"} type={"number"} value={params.availableAmount}
-                               onChange={(e)=>setParams({...params, availableAmount: Number(e.target.value)})}/>
-                    </div>
+                    <InputControl name={"availableAmount"} title={"Доступное количество : "} type={"number"} value={params.availableAmount}
+                                  onChange={(e:string)=>setParams({...params, availableAmount: e})}/>;
                     <div className={"authButton"} onClick={handleSearch}>Искать</div>
             </div>
             </div>

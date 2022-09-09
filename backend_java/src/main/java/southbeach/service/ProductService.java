@@ -18,7 +18,7 @@ public interface ProductService {
                                                             ProductNotFoundException;
     Set<Product> getProducts(String username) throws UsernameNotFoundException;
 
-    List<Product> getAllProducts(Map<String, String> params) throws RuntimeException;
+    List<Product> getAllProducts(Map<String, String> params);
 
 
 }

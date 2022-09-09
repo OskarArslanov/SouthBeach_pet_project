@@ -24,7 +24,6 @@ public class Product {
     @Column(name = "id", nullable = false)
     private Long id;
     private String name;
-
     private Double hourPrice;
     private Double dayPrice;
     private Double weekPrice;

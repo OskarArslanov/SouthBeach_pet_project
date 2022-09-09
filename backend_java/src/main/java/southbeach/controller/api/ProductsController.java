@@ -20,11 +20,11 @@ public class ProductsController {
     private final ProductService productService;
 
     @GetMapping
-    public ResponseEntity<?> getAllProducts(@RequestParam Map<String,String> params) {
-        System.out.println(params);
+    public ResponseEntity<?> getAllProducts(@RequestParam Map<String, String> params) {
         try {
             return ResponseEntity.ok(productService.getAllProducts(params));
         } catch (RuntimeException e) {
+            e.printStackTrace();
             return ResponseEntity.badRequest().build();
         }
     }
