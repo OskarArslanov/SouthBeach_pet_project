@@ -3,10 +3,9 @@ import InputMask from "react-input-mask";
 import axios from "axios";
 import {useAppDispatch, useAppSelector} from "../../../hooks/redux";
 import {fetchUser} from "../../../store/actions/userActions";
-import InputControl from "../../../components/InputControl";
-import "./../../../components/Components.css"
+import {TextInput} from "../../../components/SimpleInputs";
 
-const Main = () => {
+const MyProfile = () => {
     const dispatch = useAppDispatch();
     const {error, loading, user} = useAppSelector(state => state.user);
 
@@ -30,11 +29,11 @@ const Main = () => {
 
     return (
         <div>
-            <InputControl name={"lastname"} title={"Фамилия"} type={"text"} value={userInfo.lastname}
+            <TextInput name={"lastname"} title={"Фамилия"} type={"text"} value={userInfo.lastname}
                           onChange={(e:string)=> setUserInfo({...userInfo, lastname: e})}/>
-            <InputControl name={"firstname"} title={"Имя"} type={"text"} value={userInfo.firstname}
+            <TextInput name={"firstname"} title={"Имя"} type={"text"} value={userInfo.firstname}
                           onChange={(e:string)=> setUserInfo({...userInfo, firstname: e})}/>
-            <InputControl name={"parentname"} title={"Отчество"} type={"text"} value={userInfo.parentname}
+            <TextInput name={"parentname"} title={"Отчество"} type={"text"} value={userInfo.parentname}
                           onChange={(e:string)=> setUserInfo({...userInfo, parentname: e})}/>
             <div>Телефон</div>
             <InputMask name={"phone"} value={userInfo.phone} mask={"+7(999)-999-99-99"} className="form-control"
@@ -43,4 +42,4 @@ const Main = () => {
         </div>
     )
 }
-export default Main;
+export default MyProfile;

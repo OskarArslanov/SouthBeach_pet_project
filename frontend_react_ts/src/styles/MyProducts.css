@@ -1,0 +1,47 @@
+.myProductsContainer {
+    display: grid;
+    grid-template-rows: auto auto;
+}
+
+.myProductsContainerSearchAdd {
+    display: grid;
+    grid-template-columns: 5fr 1fr;
+}
+
+.myProductsContainerItems {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+.addButton {
+    margin-top: 21px;
+    border-radius: 5px;
+    height: 35px;
+    align-items: center;
+    background-color: #4fa3fa;
+    box-sizing: border-box;
+    color: #fff;
+    cursor: pointer;
+    font-family: system-ui,-apple-system,system-ui,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    justify-content: center;
+    text-align: center;
+    line-height: 2.5;
+    min-height: 30px;
+    transition: all 250ms;
+    touch-action: manipulation;
+}
+
+.addButton:hover,
+.addButton:focus {
+    background-color: #1f3c8a;
+    box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+}
+
+.addButton:active {
+    background-color: #4fa3fa;
+    box-shadow: rgba(0, 0, 0, .06) 0 2px 4px;
+    transform: translateY(0);
+}
+

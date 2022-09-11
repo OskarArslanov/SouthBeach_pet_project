@@ -1,27 +1,28 @@
 import React, {useEffect, useState} from "react";
 import axios from "axios";
-import {Button} from "react-bootstrap";
-import InputControl from "../components/InputControl";
+import {TextInput} from "../components/SimpleInputs";
 import InputMask from "react-input-mask";
+import {LoginInfoData, UserInfoData} from "../models/dtos";
+import {useNavigate} from "react-router-dom";
+
+
+const loginInfoInit: LoginInfoData = {email: "", password: ""};
+const userInfoInit: UserInfoData = {lastname: "", firstname: "", parentname: "", phone: ""}
 
 const RegistrationPage = () => {
-    let [email, setEmail] = useState('');
-    let [password, setPassword] = useState('');
-
-    let [firstname, setFirstname] = useState("");
-    let [lastname, setLastname] = useState("");
-    let [parentname, setParentname] = useState("");
-    let [phone, setPhone] = useState("");
+    let [loginInfoData, setLoginInfoData] = useState(loginInfoInit);
+    let [userInfoData, setUserInfoData] = useState(userInfoInit);
 
     let [error, setError] = useState(false);
 
+    let navigate = useNavigate();
     let [cPassword, setCPassword] = useState('');
     let [cPasswordClass, setCPasswordClass] = useState('form-control');
     let [isCPasswordIsNotCorrect, setIsCPasswordIsNotCorrect] = useState(false);
 
     useEffect(()=> {
         if (isCPasswordIsNotCorrect) {
-            if (password === cPassword) {
+            if (loginInfoData.password === cPassword) {
                 setCPasswordClass('form-control is-valid');
                 setIsCPasswordIsNotCorrect(false);
             } else {
@@ -32,12 +33,10 @@ const RegistrationPage = () => {
 
     const register = async () => {
         try {
-            const loginInfoData = {email, password};
-            const userInfoData = {firstname, lastname, parentname, phone}
             const response = await axios.post("/auth/registration", {loginInfoData, userInfoData});
             setError(false);
             console.log(response.status);
-            window.location.replace("http://localhost:3000");
+            navigate("/login")
         } catch (error) {
 
             // @ts-ignore
@@ -63,30 +62,33 @@ const RegistrationPage = () => {
             <div className={"bodyContent"}>
                 <div className={"registrationGrid"}>
                     <div>
-                        <InputControl name={"email"} title="Почта" type={"email"} placeholder={"example@google.com"}
-                                      value={email} onChange={setEmail}/>
-                        <InputControl name={"password"} title="Пароль" type={"password"} placeholder={"*********"}
-                                      value={password} onChange={setPassword}/>
+                        <TextInput name={"email"} title="Почта" type={"email"} placeholder={"example@google.com"}
+                                      value={loginInfoData.email}
+                                      onChange={(e:string) => setLoginInfoData({...loginInfoData, email: e})}/>
+                        <TextInput name={"password"} title="Пароль" type={"password"} placeholder={"*********"}
+                                      value={loginInfoData.password}
+                                      onChange={(e:string) => setLoginInfoData({...loginInfoData, password: e})}/>
                         <label htmlFor="confirmPassword">Подтверждение пароля</label>
                         <input type="password" className={cPasswordClass} id="confirmPassword"
                                value={cPassword} placeholder={"*************"} onChange={handleCPassword}/>
                         {error ? <div> Имя пользователя занято </div> : ''}
                     </div>
                     <div>
-                        <InputControl name={"lastname"} title="Фамилия" type={"text"} placeholder={"Иванов"}
-                                      value={lastname} onChange={setLastname}/>
-                        <InputControl name={"firstname"} title="Имя" type={"text"} placeholder={"Иван"}
-                                      value={firstname} onChange={setFirstname}/>
-                        <InputControl name={"parentname"} title="Отчество" type={"text"} placeholder={"Иванович"}
-                                      value={parentname} onChange={setParentname}/>
+                        <TextInput name={"lastname"} title="Фамилия" type={"text"} placeholder={"Иванов"}
+                                      value={userInfoData.lastname}
+                                      onChange={(e:string) => setUserInfoData({...userInfoData, lastname: e})}/>
+                        <TextInput name={"firstname"} title="Имя" type={"text"} placeholder={"Иван"}
+                                      value={userInfoData.firstname}
+                                      onChange={(e:string) => setUserInfoData({...userInfoData, firstname: e})}/>
+                        <TextInput name={"parentname"} title="Отчество" type={"text"} placeholder={"Иванович"}
+                                      value={userInfoData.parentname}
+                                      onChange={(e:string) => setUserInfoData({...userInfoData, parentname: e})}/>
                         <div>
                             <label htmlFor="phone">Номер телефона</label>
-                            <InputMask className="form-control"
-                                       mask={"+7(999)-999-99-99"}
-                                       value={phone}
-                                       placeholder={"+7(999)-999-99-99"}
-                                       onChange={(e) => {setPhone(e.target.value)
-                                       }}>
+                            <InputMask className="form-control" mask={"+7(999)-999-99-99"}
+                                       value={userInfoData.phone} placeholder={"+7(999)-999-99-99"}
+                                       onChange={(e) =>
+                                           setUserInfoData({...userInfoData, lastname: e.target.value})}>
                             </InputMask>
                         </div>
                         <div className={"authButton"} onClick={register}>Регистрация</div>

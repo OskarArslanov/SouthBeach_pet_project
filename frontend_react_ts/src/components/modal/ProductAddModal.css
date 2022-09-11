@@ -1,0 +1,48 @@
+.modalForm {
+
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 5%; /* Location of the box */
+    padding-left: 20%;
+    padding-right: 20%;
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: #ffffff; /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+.modalHeader {
+    display: grid;
+    text-align: center;
+    color: white;
+    font-weight: 600;
+    font-size: 18px;
+    vertical-align: center;
+    font-family: system-ui,-apple-system,system-ui,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    line-height: 2;
+    background-color: #4fa3fa;
+    border-radius: 5px 5px 0px 0px;
+}
+
+.modalBody {
+    background-color: white;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+}
+
+.modalFooter {
+    display: grid;
+    margin-top: 0;
+    margin-bottom: 0;
+    grid-template-columns: 1fr 3fr 1fr;
+    border-radius: 5px 5px 5px 5px;
+    background-color: #4fa3fa;
+}

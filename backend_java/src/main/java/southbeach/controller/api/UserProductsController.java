@@ -27,8 +27,7 @@ public class UserProductsController {
     @GetMapping
     public ResponseEntity<?> getProducts(HttpServletRequest request) {
         try {
-            String username = jwtProvider.getUsernameFromCookies("access_token",
-                                                                 request.getCookies());
+            String username = jwtProvider.getUsernameFromCookies("access_token", request.getCookies());
             return ResponseEntity.ok(productService.getProducts(username));
         } catch (UsernameNotFoundException e) {
             log.error("==================//username not found//===============");
@@ -36,13 +35,11 @@ public class UserProductsController {
         }
     }
 
-    @PreAuthorize("hasAnyAuthority('users:read', 'users:write')")
+    @PreAuthorize("hasAnyAuthority('PRODUCT_ADD', 'PRODUCT_EDIT', 'PRODUCT_DELETE')")
     @PostMapping
-    public ResponseEntity<?> addProduct(@RequestBody ProductDTO productDTO,
-                                        HttpServletRequest request) {
+    public ResponseEntity<?> addProduct(@RequestBody ProductDTO productDTO, HttpServletRequest request) {
         try {
-            String username = jwtProvider.getUsernameFromCookies("access_token",
-                                                                 request.getCookies());
+            String username = jwtProvider.getUsernameFromCookies("access_token", request.getCookies());
             productService.addProduct(username, productDTO);
             return ResponseEntity.status(HttpStatus.OK).build();
         } catch (UsernameNotFoundException e) {

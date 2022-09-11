@@ -6,13 +6,18 @@ export interface IUser {
     phone: string,
 }
 
+export interface IUserProducts {
+    products: IProduct[]
+}
+
 export interface IProduct {
-    id: number
+    id: string
     name: string,
-    types: [],
+    types: string[],
     description: string,
-    availableAmount: number,
-    dayPrice: number,
-    weekPrice: number,
-    monthPrice: number
+    availableAmount: string,
+    hourPrice: string,
+    dayPrice: string,
+    weekPrice: string,
+    monthPrice: string
 }

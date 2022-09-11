@@ -13,8 +13,8 @@ const initialState: ProductState = {
     products: []
 }
 
-export const productSlice = createSlice({
-    name: "productInfo",
+export const allProductsSlice = createSlice({
+    name: "allProducts",
     initialState,
     reducers: {
         fetching(state) {
@@ -30,4 +30,4 @@ export const productSlice = createSlice({
         }
     }
 })
-export default productSlice.reducer;
+export default allProductsSlice.reducer;

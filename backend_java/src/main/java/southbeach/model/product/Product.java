@@ -9,6 +9,7 @@ import southbeach.model.user.User;
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 
 @Getter
@@ -46,7 +47,9 @@ public class Product {
     public static Product fromDTO (ProductDTO productDTO) {
         Product product = new Product();
         product.setName(productDTO.getName());
-        product.setTypes(productDTO.getTypes());
+        product.setTypes(productDTO.getTypes().stream()
+                                   .map(type -> Type.builder().type(type).build())
+                                   .collect(Collectors.toSet()));
         product.setAvailableAmount(product.getAvailableAmount());
         product.setDescription(productDTO.getDescription());
         product.setHourPrice(productDTO.getHourPrice());

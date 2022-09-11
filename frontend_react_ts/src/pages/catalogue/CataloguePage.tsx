@@ -1,10 +1,9 @@
 import React, {ChangeEvent, useEffect, useState} from "react";
 import {useAppDispatch, useAppSelector} from "../../hooks/redux";
-import {fetchProducts} from "../../store/actions/productActions";
+import {fetchProducts} from "../../store/actions/allProductsActions";
 import ProductCard from "./ProductCard";
-import InputControl from "../../components/InputControl";
-import CheckBox from "../../components/CheckBox";
-import MultiRangeSlider from "../../components/MultiRangeSlider";
+import {TextInput, CheckInput} from "../../components/SimpleInputs";
+import MultiRangeSlider from "../../components/multiRangeSlider/MultiRangeSlider";
 import {ProductsParamRequest, Range} from "../../models/request";
 import "./../../styles/Catalogue.css"
 
@@ -23,7 +22,7 @@ const defaultRequest: ProductsParamRequest = {
 }
 export default function () {
     const dispatch = useAppDispatch();
-    const {error, loading, products} = useAppSelector(state => state.products);
+    const {error, loading, products} = useAppSelector(state => state.allProducts);
 
     let [params, setParams] = useState(defaultRequest)
 
@@ -45,18 +44,18 @@ export default function () {
         <>
             <div className={"bodyNavs"}>
                 <div className={"catalogueFilter"}>
-                    <InputControl name={"name"} title={"Название :"} type={"text"} value={params.name}
+                    <TextInput name={"name"} title={"Название :"} type={"text"} value={params.name}
                                   onChange={(e:string)=>setParams({...params, name:e})}/>
                     <div> Категории :
-                        <CheckBox name={"forest"} title={" В лес "} checked={params.types?.includes("forest")}
+                        <CheckInput name={"forest"} title={" В лес "} checked={params.types?.includes("forest")}
                                   onChange={()=>setParams({...params, types: selectTypes("forest", params.types)})}/>
-                        <CheckBox name={"sea"} title={" На море "} checked={params.types?.includes("sea")}
+                        <CheckInput name={"sea"} title={" На море "} checked={params.types?.includes("sea")}
                                   onChange={()=>setParams({...params, types: selectTypes("sea", params.types)})}/>
-                        <CheckBox name={"river"} title={" На реку "} checked={params.types?.includes("river")}
+                        <CheckInput name={"river"} title={" На реку "} checked={params.types?.includes("river")}
                                   onChange={()=>setParams({...params, types: selectTypes("river", params.types)})}/>
-                        <CheckBox name={"mount"} title={" В горы "} checked={params.types?.includes("mount")}
+                        <CheckInput name={"mount"} title={" В горы "} checked={params.types?.includes("mount")}
                                   onChange={()=>setParams({...params, types: selectTypes("mount", params.types)})}/>
-                        <CheckBox name={"vehicle"} title={" Колеса "} checked={params.types?.includes("vehicle")}
+                        <CheckInput name={"vehicle"} title={" Колеса "} checked={params.types?.includes("vehicle")}
                                   onChange={()=>setParams({...params, types: selectTypes("vehicle", params.types)})}/>
                     </div>
                     <MultiRangeSlider name={"hourCost"} title={"Стоимость за час :"}  min={0} max={100000}
@@ -67,7 +66,7 @@ export default function () {
                                       onChange={(range: Range) => setParams({...params, weekPrice:range}) }/>
                     <MultiRangeSlider name={"monthCost"} title={"Стоимость за месяц :"}  min={0} max={100000}
                                       onChange={(range: Range) => setParams({...params, monthPrice:range}) }/>
-                    <InputControl name={"availableAmount"} title={"Доступное количество : "} type={"number"} value={params.availableAmount}
+                    <TextInput name={"available"} title={"Доступное количество : "} type={"number"} value={params.availableAmount}
                                   onChange={(e:string)=>setParams({...params, availableAmount: e})}/>;
                     <div className={"authButton"} onClick={handleSearch}>Искать</div>
             </div>

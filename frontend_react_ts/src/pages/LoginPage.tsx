@@ -1,18 +1,18 @@
-import React, {useEffect, useState} from "react";
-import {Button} from "react-bootstrap";
+import React, {useState} from "react";
 import axios from "axios";
-import InputControl from "../components/InputControl";
+import {TextInput} from "../components/SimpleInputs";
 import {useNavigate} from "react-router-dom";
 import "../styles/Auth.css"
+import {LoginInfoData} from "../models/dtos";
 
+const initLoginInfo: LoginInfoData = {email: "", password: ""}
 const LoginPage = () => {
+    let [loginInfoData, setLoginInfoData] = useState(initLoginInfo);
     let [error, setError] = useState(false);
-    let [email, setEmail] = useState('');
-    let [password, setPassword] = useState('');
     let navigate = useNavigate()
     const login = async () => {
         try {
-            const response = await axios.post("/auth/login", {email, password}, {withCredentials:true});
+            const response = await axios.post("/auth/login", loginInfoData, {withCredentials:true});
             setError(false)
             if (response.status === 200) {
                 localStorage.setItem("_logged", "true")
@@ -33,10 +33,12 @@ const LoginPage = () => {
             <div className={"bodyNavs"}>navs</div>
             <div className={"bodyContent"}>
                 <div className={"loginGrid"}>
-                    <InputControl name={"email"} title="Почта" type={"email"} placeholder={"example@google.com"}
-                                  value={email} onChange={setEmail}/>
-                    <InputControl name={"password"} title="Пароль" type={"password"} placeholder={"*********"}
-                                  value={password} onChange={setPassword}/>
+                    <TextInput name={"email"} title="Почта" type={"email"} placeholder={"example@google.com"}
+                                  value={loginInfoData.email}
+                                  onChange={(e:string)=> {setLoginInfoData({...loginInfoData, email: e})}}/>
+                    <TextInput name={"password"} title="Пароль" type={"password"} placeholder={"*********"}
+                                  value={loginInfoData.password}
+                                  onChange={(e:string)=> {setLoginInfoData({...loginInfoData, password: e})}}/>
                     {error ? <div>Введены не верные данные</div> : ''}
                     <div className={"authButton"} onClick={login}>Войти</div>
                 </div>

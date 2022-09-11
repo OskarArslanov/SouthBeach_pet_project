@@ -10,27 +10,6 @@ body {
     grid-template-rows: auto auto auto;
 }
 
-/*.header {*/
-/*    grid-column-start: 1;*/
-/*    grid-column-end: 10;*/
-/*    grid-row-start: 1;*/
-/*    grid-row-end: 2;*/
-/*}*/
-
-/*.body {*/
-/*    grid-column-start: 1;*/
-/*    grid-column-end: 4;*/
-/*    grid-row-start: 2;*/
-/*    grid-row-end: 3;*/
-/*}*/
-
-/*.footer {*/
-/*    grid-column-start: 1;*/
-/*    grid-column-end: 4;*/
-/*    grid-row-start: 3;*/
-/*    grid-row-end: 4;*/
-/*}*/
-
 fieldset {
     background: #ffffff;
     border: 15px solid #1f3c8a;
