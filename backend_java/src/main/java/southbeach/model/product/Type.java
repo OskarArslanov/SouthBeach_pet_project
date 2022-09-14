@@ -1,10 +1,7 @@
 package southbeach.model.product;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.*;
@@ -17,6 +14,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@Setter
 @Table(name = "types_of_products")
 public class Type {
     @JsonIgnore
@@ -25,7 +23,8 @@ public class Type {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    private String type;
+    private String name;
+    private String description;
 
     @JsonIgnore
     @ManyToMany(mappedBy = "types")

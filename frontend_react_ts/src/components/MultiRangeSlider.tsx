@@ -1,7 +1,7 @@
 import {ChangeEvent, FC, useCallback, useEffect, useState, useRef} from "react";
 import classnames from "classnames";
-import "./multiRangeSlider.css";
-import "../../models/request"
+import "../styles/MultiRangeSlider.css";
+import "../models/request"
 
 interface MultiRangeSliderProps {
     title: string;

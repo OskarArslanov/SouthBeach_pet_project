@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import "../../styles/Body.css"
-import "../../components/Buttons.css"
+import "../../styles/Buttons.css"
 import MyProfile from "./content/MyProfile";
 import MyProducts from "./content/MyProducts";
 import MyCart from "./content/MyCart";

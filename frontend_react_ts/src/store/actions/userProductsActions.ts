@@ -1,18 +1,17 @@
 import axios from "axios";
 import {AppDispatch} from "../index";
 import {IProduct} from "../../models/entities";
-import {allProductsSlice} from "../slices/allProductsSlice";
+import {userProductsSlice} from "../slices/userProductsSlice";
 
-export const fetchUserProducts = (props:string) => {
+export const fetchUserProducts = () => {
     return async (dispatch: AppDispatch) => {
         try {
-            dispatch(allProductsSlice.actions.fetching())
-            const response = await axios.get<IProduct[]>('/profile/products', {
-                params: props
-            })
-            dispatch(allProductsSlice.actions.fetchingSuccess(response.data))
+            dispatch(userProductsSlice.actions.fetching())
+            const response = await axios.get<IProduct[]>('/profile/products')
+            let products = response.data;
+            dispatch(userProductsSlice.actions.fetchingSuccess(products))
         } catch (error) {
-            dispatch(allProductsSlice.actions.fetchingError(error as Error))
+            dispatch(userProductsSlice.actions.fetchingError(error as Error))
         }
     }
 }

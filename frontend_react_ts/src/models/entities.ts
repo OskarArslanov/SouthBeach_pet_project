@@ -13,11 +13,16 @@ export interface IUserProducts {
 export interface IProduct {
     id: string
     name: string,
-    types: string[],
+    types: IType[],
     description: string,
     availableAmount: string,
     hourPrice: string,
     dayPrice: string,
     weekPrice: string,
     monthPrice: string
+}
+
+export interface IType {
+    name: string,
+    description: string,
 }

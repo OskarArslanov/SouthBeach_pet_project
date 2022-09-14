@@ -1,12 +1,12 @@
-import React, {ChangeEvent, useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useAppDispatch, useAppSelector} from "../../hooks/redux";
-import {fetchProducts} from "../../store/actions/allProductsActions";
-import ProductCard from "./ProductCard";
+import {fetchAllProducts} from "../../store/actions/productsActions";
+import ProductCard from "../../components/ProductCard";
 import {TextInput, CheckInput} from "../../components/SimpleInputs";
-import MultiRangeSlider from "../../components/multiRangeSlider/MultiRangeSlider";
+import MultiRangeSlider from "../../components/MultiRangeSlider";
 import {ProductsParamRequest, Range} from "../../models/request";
 import "./../../styles/Catalogue.css"
-
+import "../../styles/Buttons.css"
 const initRange: Range = {
     min: 0,
     max: 100000
@@ -27,11 +27,11 @@ export default function () {
     let [params, setParams] = useState(defaultRequest)
 
     useEffect(() => {
-        dispatch(fetchProducts(defaultRequest))
+        dispatch(fetchAllProducts())
     }, [])
 
     const handleSearch = () => {
-        dispatch(fetchProducts(params))
+        dispatch(fetchAllProducts(params))
         console.log(params)
     }
     const selectTypes = (name:string, array:string[]) => {
@@ -47,16 +47,16 @@ export default function () {
                     <TextInput name={"name"} title={"Название :"} type={"text"} value={params.name}
                                   onChange={(e:string)=>setParams({...params, name:e})}/>
                     <div> Категории :
-                        <CheckInput name={"forest"} title={" В лес "} checked={params.types?.includes("forest")}
-                                  onChange={()=>setParams({...params, types: selectTypes("forest", params.types)})}/>
-                        <CheckInput name={"sea"} title={" На море "} checked={params.types?.includes("sea")}
-                                  onChange={()=>setParams({...params, types: selectTypes("sea", params.types)})}/>
-                        <CheckInput name={"river"} title={" На реку "} checked={params.types?.includes("river")}
-                                  onChange={()=>setParams({...params, types: selectTypes("river", params.types)})}/>
-                        <CheckInput name={"mount"} title={" В горы "} checked={params.types?.includes("mount")}
-                                  onChange={()=>setParams({...params, types: selectTypes("mount", params.types)})}/>
-                        <CheckInput name={"vehicle"} title={" Колеса "} checked={params.types?.includes("vehicle")}
-                                  onChange={()=>setParams({...params, types: selectTypes("vehicle", params.types)})}/>
+                        {/*<CheckInput name={"forest"} title={" В лес "} checked={params.types?.includes("forest")}*/}
+                        {/*          onChange={()=>setParams({...params, types: selectTypes("forest", params.types)})}/>*/}
+                        {/*<CheckInput name={"sea"} title={" На море "} checked={params.types?.includes("sea")}*/}
+                        {/*          onChange={()=>setParams({...params, types: selectTypes("sea", params.types)})}/>*/}
+                        {/*<CheckInput name={"river"} title={" На реку "} checked={params.types?.includes("river")}*/}
+                        {/*          onChange={()=>setParams({...params, types: selectTypes("river", params.types)})}/>*/}
+                        {/*<CheckInput name={"mount"} title={" В горы "} checked={params.types?.includes("mount")}*/}
+                        {/*          onChange={()=>setParams({...params, types: selectTypes("mount", params.types)})}/>*/}
+                        {/*<CheckInput name={"vehicle"} title={" Колеса "} checked={params.types?.includes("vehicle")}*/}
+                        {/*          onChange={()=>setParams({...params, types: selectTypes("vehicle", params.types)})}/>*/}
                     </div>
                     <MultiRangeSlider name={"hourCost"} title={"Стоимость за час :"}  min={0} max={100000}
                                       onChange={(range: Range) => setParams({...params, hourPrice:range}) }/>
@@ -72,11 +72,14 @@ export default function () {
             </div>
             </div>
             <div className={"bodyContent"}>
-                 <div className={"gridCatalogue"}>
-                     {products.map(product => <ProductCard key={product.id} product={product}/>)}
+                 <div className={"catalogueProducts"}>
+                     {products.map(product => <ProductCard key={product.id} product={product} isOwner={false}/>)}
                  </div>
+
             </div>
-            <div className={"bodyRecommends"}>recommends</div>
+            <div className={"bodyRecommends"}>
+                recommends
+            </div>
         </>
     )
 }

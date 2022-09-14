@@ -1,5 +1,5 @@
-import React, {FunctionComponent} from "react";
-import "./Buttons.css"
+import React, {FunctionComponent, useEffect, useState} from "react";
+import "../styles/Buttons.css"
 
 interface ITextProps {
     name: string ,
@@ -7,14 +7,16 @@ interface ITextProps {
     type : string,
     value : string,
     placeholder? : string,
-    onChange : Function
+    onChange : Function,
+    required?: boolean,
+    pattern?: string
 }
 export const TextInput:FunctionComponent<ITextProps> = (props) => {
     return(
         <div>
-            <label htmlFor={props.name}>{props.title}</label>
+            {props.title ? <label htmlFor={props.name}>{props.title}</label> : '' }
             <input type={props.type} className={"form-control"} id={props.name} value={props.value}
-                   placeholder={props.placeholder}
+                   placeholder={props.placeholder} required={props.required} pattern={props.pattern}
                    onChange={(e) => {props.onChange(e.target.value)}}/>
         </div>
     )
@@ -22,17 +24,22 @@ export const TextInput:FunctionComponent<ITextProps> = (props) => {
 
 
 interface ICheckProps {
-    title: string,
-    checked: boolean | undefined,
     name: string,
-    onChange: any
+    title: string,
+    checked?: boolean,
+    onClick: any
 }
 export const CheckInput = (props:ICheckProps) => {
+
+    let [pressed, setPressed] = useState(props.checked)
+    const handleClick = () => {
+        setPressed(!pressed)
+        props.onClick(!pressed)
+    }
     return (
-        <label className="container">
-            <input name={props.name} type="checkbox" checked={props.checked}  onChange={props.onChange}/>
+        <div className={"stateButton"} onClick={handleClick} style={{backgroundColor: (pressed? "green" : "gray")}}>
             {props.title}
-        </label>
+        </div>
     )
 }
 

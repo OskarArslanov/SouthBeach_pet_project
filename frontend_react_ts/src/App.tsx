@@ -3,7 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css"
 import Header from "./header/Header";
 import Footer from "./footer/Footer";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
-import Interceptors from "./axios";
+import Interceptors from "./axios/axios";
 import React from "react";
 import Body from "./body/Body"
 

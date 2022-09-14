@@ -1,6 +1,6 @@
 import React from 'react';
 import {Container, ListGroup, ListGroupItem} from "react-bootstrap";
-import MultiRangeSlider from "../../components/multiRangeSlider/MultiRangeSlider";
+import MultiRangeSlider from "../../components/MultiRangeSlider";
 
 export default function () {
     return (

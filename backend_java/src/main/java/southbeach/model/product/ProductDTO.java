@@ -3,32 +3,29 @@ package southbeach.model.product;
 import lombok.Data;
 
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Data
 public class ProductDTO {
 
     private String name;
-    private Set<String> types;
-    private Double hourPrice;
-    private Double dayPrice;
-    private Double weekPrice;
-    private Double monthPrice;
-    private Integer availableAmount;
+    private Set<Type> types;
+    private String hourPrice;
+    private String dayPrice;
+    private String weekPrice;
+    private String monthPrice;
+    private String availableAmount;
     private String description;
 
     public static ProductDTO from(Product product) {
         ProductDTO productDTO = new ProductDTO();
         productDTO.setName(product.getName());
-        productDTO.setTypes(product.getTypes().stream()
-                                   .map(Type::getType)
-                                   .collect(Collectors.toSet()));
-        productDTO.setHourPrice(product.getHourPrice());
-        productDTO.setDayPrice(product.getDayPrice());
-        productDTO.setWeekPrice(product.getWeekPrice());
-        productDTO.setMonthPrice(product.getMonthPrice());
-        productDTO.setMonthPrice(product.getMonthPrice());
-        productDTO.setAvailableAmount(product.getAvailableAmount());
+        productDTO.setTypes(product.getTypes());
+        productDTO.setHourPrice(product.getHourPrice().toString());
+        productDTO.setDayPrice(product.getDayPrice().toString());
+        productDTO.setWeekPrice(product.getWeekPrice().toString());
+        productDTO.setMonthPrice(product.getMonthPrice().toString());
+        productDTO.setMonthPrice(product.getMonthPrice().toString());
+        productDTO.setAvailableAmount(product.getAvailableAmount().toString());
         productDTO.setDescription(product.getDescription());
         return productDTO;
     }

@@ -8,7 +8,6 @@ import southbeach.model.product.ProductDTO;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public interface ProductService {
 
@@ -16,9 +15,10 @@ public interface ProductService {
             UsernameNotFoundException;
     void removeProduct(String username, String name) throws UsernameNotFoundException,
                                                             ProductNotFoundException;
-    Set<Product> getProducts(String username) throws UsernameNotFoundException;
 
     List<Product> getAllProducts(Map<String, String> params);
+
+    void updateProduct(String username, Long id, ProductDTO productDTO) throws ProductAlreadyExistException;
 
 
 }

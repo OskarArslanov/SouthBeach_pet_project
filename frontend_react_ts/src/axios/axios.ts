@@ -6,9 +6,6 @@ export default function () {
 
     axios.interceptors.request.use(
         request => {
-            // console.log(request)
-            console.log("request : ")
-            console.log(request)
             return request;
         }, error => {
             console.log("FAIL API PRE REQUEST : '" + error.baseURL+error.url+"'");
@@ -17,8 +14,6 @@ export default function () {
     )
     axios.interceptors.response.use(
         async response => {
-            console.log("response : ");
-            console.log(response);
             if (response.headers["cookie"]) {
                 // @ts-ignore
                 const _logged = response.headers["cookie"].split(";").at(0).split("=").at(1)
@@ -32,7 +27,6 @@ export default function () {
                 console.log("refreshing finished with status : " + refresh.status);
                 if (refresh.status === 200) {
                     console.log("access_token refreshed")
-                    console.log(error)
                     return axios(error.config.url, {method: error.config.method});
                 }
                 localStorage.setItem("_logged", "false")
